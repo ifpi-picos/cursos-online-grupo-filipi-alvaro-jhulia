@@ -8,13 +8,11 @@ public class Aluno {
     private int numeroMatricula;
     private List<Curso> cursosMatriculados;
 
-
-    public Aluno(String nome, int numeroMatricula, String informacoesContato) {
+    public Aluno(String nome, int numeroMatricula) {
         this.nome = nome;
         this.numeroMatricula = numeroMatricula;
         this.cursosMatriculados = new ArrayList<>();
     }
-
 
     public String getNome() {
         return nome;
