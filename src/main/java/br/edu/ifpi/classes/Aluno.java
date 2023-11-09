@@ -1,4 +1,4 @@
-package br.edu.ifpi.enums;
+package br.edu.ifpi.classes;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package br.edu.ifpi.enums;
+package br.edu.ifpi.classes;
 
 public class Curso {
     private String nome;

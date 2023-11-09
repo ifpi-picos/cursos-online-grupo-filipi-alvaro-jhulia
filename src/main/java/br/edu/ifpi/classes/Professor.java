@@ -1,4 +1,4 @@
-package br.edu.ifpi.enums;
+package br.edu.ifpi.classes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,14 +6,14 @@ import java.util.List;
 public class Professor {
     private String nome;
     private int id;
-    private String informacoesContato;
+    private String informacaoContato;
     private List<Curso> cursosMinistrados;
 
 
-    public Professor(String nome, int id, String informacoesContato) {
+    public Professor(String nome, int id, String informacaoContato) {
         this.nome = nome;
         this.id = id;
-        this.informacoesContato = informacoesContato;
+        this.informacaoContato = informacaoContato;
         this.cursosMinistrados = new ArrayList<>();
     }
 
@@ -35,11 +35,11 @@ public class Professor {
     }
 
     public String getInformacoesContato() {
-        return informacoesContato;
+        return informacaoContato;
     }
 
     public void setInformacoesContato(String informacoesContato) {
-        this.informacoesContato = informacoesContato;
+        this.informacaoContato = informacoesContato;
     }
 
     public List<Curso> getCursosMinistrados() {
