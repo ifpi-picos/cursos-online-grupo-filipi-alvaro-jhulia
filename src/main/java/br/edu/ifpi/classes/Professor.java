@@ -1,20 +1,21 @@
 package br.edu.ifpi.classes;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Professor {
     private String nome;
     private int id;
-    private String informacaoContato;
-    private List<Curso> cursosMinistrados;
+    private String email;
+    
 
-
-    public Professor(String nome, int id, String informacaoContato) {
+    public Professor(String nome, int id, String email){
         this.nome = nome;
         this.id = id;
-        this.informacaoContato = informacaoContato;
-        this.cursosMinistrados = new ArrayList<>();
+        this.email = email;
+    }
+
+    public Professor(String nome, String email){
+        this.nome= nome;
+        this.email = email;
     }
 
 
@@ -30,23 +31,16 @@ public class Professor {
         return id;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(int id) {
         this.id = id;
     }
 
-    public String getInformacoesContato() {
-        return informacaoContato;
+    public String getEmail(){
+        return email;
     }
 
-    public void setInformacoesContato(String informacoesContato) {
-        this.informacaoContato = informacoesContato;
+    public void setEmail(String email){
+        this.email = email;
     }
 
-    public List<Curso> getCursosMinistrados() {
-        return cursosMinistrados;
-    }
-
-    public void setCursosMinistrados(List<Curso> cursosMinistrados) {
-        this.cursosMinistrados = cursosMinistrados;
-    }
 }

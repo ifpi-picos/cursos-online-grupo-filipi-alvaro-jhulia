@@ -1,19 +1,23 @@
 package br.edu.ifpi.classes;
 
-import java.util.ArrayList;
-import java.util.List;
+import br.edu.ifpi.enums.StatusAluno;
 
 public class Aluno {
     private String nome;
-    private int numeroMatricula;
-    private String email;
-    private List<Curso> cursosMatriculados;
+    private String id;
+    private int email;
+    private StatusAluno status;
 
-    public Aluno(String nome, int numeroMatricula, String email) {
+    public Aluno(String nome, int email, String id, StatusAluno status) {
         this.nome = nome;
-        this.numeroMatricula = numeroMatricula;
         this.email = email;
-        this.cursosMatriculados = new ArrayList<>();
+        this.id = id;
+        this.status = status;
+    }
+
+    public Aluno(String nome , int email){
+        this.nome = nome;
+        this.email = email;
     }
 
     public String getNome() {
@@ -24,27 +28,24 @@ public class Aluno {
         this.nome = nome;
     }
 
-    public int getNumeroMatricula() {
-        return numeroMatricula;
+    public String getid(){
+      return id;
     }
 
-    public void setNumeroMatricula(int numeroMatricula) {
-        this.numeroMatricula = numeroMatricula;
+    public void setid(String id){
+        this.id = id;
     }
 
-    public List<Curso> getCursosMatriculados() {
-        return cursosMatriculados;
-    }
+   public int getemail(){
+    return email;
+   }
 
-    public void setCursosMatriculados(List<Curso> cursosMatriculados) {
-        this.cursosMatriculados = cursosMatriculados;
-    }
+   public void setemail(int email){
+    this.email = email;
+   }
 
-    public String getEmail() {
-        return email;
-    }
+   public String getStatusAsString(){
+    return this.status == StatusAluno.ATIVO?"ATIVO":"INATIVO";
+   }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
