@@ -20,30 +20,6 @@ public class Aluno {
         this.email = email;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getid(){
-      return id;
-    }
-
-    public void setid(String id){
-        this.id = id;
-    }
-
-   public int getemail(){
-    return email;
-   }
-
-   public void setemail(int email){
-    this.email = email;
-   }
-
    public String getStatusAsString(){
     return this.status == StatusAluno.ATIVO?"ATIVO":"INATIVO";
    }
