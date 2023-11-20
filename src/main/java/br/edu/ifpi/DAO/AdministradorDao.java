@@ -7,27 +7,25 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import br.edu.ifpi.entidades.Curso;
-import br.edu.ifpi.enums.StatusCurso;
+import br.edu.ifpi.entidades.Administrador;
 
-public class CursoDao implements Dao<Curso> {
+public class AdministradorDao implements Dao<Administrador> {
 
   final private Connection conexao;
 
-  public CursoDao(Connection conexao) {
+  public AdministradorDao(Connection conexao) {
     this.conexao = conexao;
   }
 
   @Override
-  public int cadastrar(Curso curso) {
-    String SQL_INSERT = "INSERT INTO curso (nome, carga_horaria, status) VALUES (?,?, ?)";
+  public int cadastrar(Administrador administrador) {
+    String SQL_INSERT = "INSERT INTO administrador (nome, email) VALUES (?,?)";
 
     try {
       PreparedStatement preparedStatement = conexao.prepareStatement(SQL_INSERT);
 
-      preparedStatement.setString(1, curso.getNome());
-      preparedStatement.setInt(2, curso.getCargaHoraria());
-      preparedStatement.setString(3, curso.getStatus().toString());
+      preparedStatement.setString(1, administrador.getNome());
+      preparedStatement.setString(2, administrador.getEmail());
 
       int row = preparedStatement.executeUpdate();
 
@@ -41,10 +39,10 @@ public class CursoDao implements Dao<Curso> {
   }
 
   @Override
-  public List<Curso> consultarTodos() throws SQLException {
-    String SQL_QUERY = "SELECT * FROM curso";
+  public List<Administrador> consultarTodos() throws SQLException {
+    String SQL_QUERY = "SELECT * FROM administrador";
 
-    List<Curso> cursos = new ArrayList<>();
+    List<Administrador> administradores = new ArrayList<>();
 
     try (
       Statement statement = conexao.createStatement();
@@ -53,11 +51,10 @@ public class CursoDao implements Dao<Curso> {
       while (result.next()) {
         int id = result.getInt("id");
         String nome = result.getString("nome");
-        int cargaHoraria = result.getInt("carga_horaria");
-        StatusCurso status = StatusCurso.valueOf(result.getString("status"));
+        String email = result.getString("email");
 
-        Curso curso = new Curso(id, nome, cargaHoraria, status);
-        cursos.add(curso);
+        Administrador administrador = new Administrador(id, nome, email);
+        administradores.add(administrador);
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -65,20 +62,19 @@ public class CursoDao implements Dao<Curso> {
 
     conexao.close();
 
-    return cursos;
+    return administradores;
   }
 
   @Override
-  public int alterar(Curso curso) {
-    String SQL_UPDATE = "UPDATE curso SET nome = ?, carga_horaria = ?, status = ? WHERE id = ?";
+  public int alterar(Administrador administrador) {
+    String SQL_UPDATE = "UPDATE administrador SET nome = ?, email = ? WHERE id = ?";
 
     try {
       PreparedStatement preparedStatement = conexao.prepareStatement(SQL_UPDATE);
 
-      preparedStatement.setString(1, curso.getNome());
-      preparedStatement.setInt(2, curso.getCargaHoraria());
-      preparedStatement.setString(3, curso.getStatus().toString());
-      preparedStatement.setInt(4, curso.getId());
+      preparedStatement.setString(1, administrador.getNome());
+      preparedStatement.setString(2, administrador.getEmail());
+      preparedStatement.setInt(3, administrador.getId());
 
       int row = preparedStatement.executeUpdate();
 
@@ -92,13 +88,13 @@ public class CursoDao implements Dao<Curso> {
   }
 
   @Override
-  public int remover(Curso curso) {
-    String SQL_DELETE = "DELETE FROM curso WHERE id = ?";
+  public int remover(Administrador administrador) {
+    String SQL_DELETE = "DELETE FROM administrador WHERE id = ?";
 
     try {
       PreparedStatement preparedStatement = conexao.prepareStatement(SQL_DELETE);
 
-      preparedStatement.setInt(1, curso.getId());
+      preparedStatement.setInt(1, administrador.getId());
 
       int row = preparedStatement.executeUpdate();
 
