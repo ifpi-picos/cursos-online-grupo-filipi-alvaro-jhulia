@@ -91,7 +91,6 @@ public class ProfessorDao implements Dao<Professor> {
   }
 
   public Professor consultarPorId(int idProfessor) {
-    System.out.println("2");
     String SQL_QUERY = "SELECT * FROM sistema_academico.professor WHERE id = ?";
     
     try {
@@ -108,7 +107,6 @@ public class ProfessorDao implements Dao<Professor> {
 
       System.out.println(result);
       if (result.next()) {
-        System.out.println("3");
         int id = result.getInt("id");
         String nome = result.getString("nome");
         String email = result.getString("email");
