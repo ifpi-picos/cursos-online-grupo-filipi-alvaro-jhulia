@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import br.edu.ifpi.entidades.Aluno;
+import br.edu.ifpi.enums.StatusAluno;
 
 public class AlunoDao implements Dao<Aluno> {
     
@@ -19,13 +20,14 @@ public class AlunoDao implements Dao<Aluno> {
     
     @Override
     public int cadastrar(Aluno aluno) {
-        String SQL_INSERT = "INSERT INTO aluno (nome, email) VALUES (?,?)";
+        String SQL_INSERT = "INSERT INTO aluno (nome, email, status) VALUES (?,?,?)";
         
         try {
             PreparedStatement preparedStatement = conexao.prepareStatement(SQL_INSERT);
             
             preparedStatement.setString(1, aluno.getNome());
             preparedStatement.setString(2, aluno.getEmail());
+            preparedStatement.setString(3, aluno.getStatus());
             
             int row = preparedStatement.executeUpdate();
             
@@ -53,8 +55,9 @@ public class AlunoDao implements Dao<Aluno> {
                 int id = result.getInt("id");
                 String nome = result.getString("nome");
                 String email = result.getString("email");
+                StatusAluno status = result.getString("status").equals("ATIVO") ? StatusAluno.ATIVO : StatusAluno.INATIVO;
                 
-                Aluno aluno = new Aluno(id, nome, email);
+                Aluno aluno = new Aluno(id, nome, email, status);
                 alunos.add(aluno);
             }
         }  catch (SQLException e) {
@@ -68,13 +71,14 @@ public class AlunoDao implements Dao<Aluno> {
     
     @Override
     public int alterar(Aluno aluno) {
-        String SQL_UPDATE = "UPDATE aluno SET nome = ?, email = ? WHERE id = ?";
+        String SQL_UPDATE = "UPDATE aluno SET nome = ?, email = ?, satus = ?  WHERE id = ?";
         
         try {
             PreparedStatement preparedStatement = conexao.prepareStatement(SQL_UPDATE);
             
             preparedStatement.setString(1, aluno.getNome());
             preparedStatement.setString(2, aluno.getEmail());
+            preparedStatement.setString(3, aluno.getStatus());
             preparedStatement.setInt(3, aluno.getId());
             
             int row = preparedStatement.executeUpdate();

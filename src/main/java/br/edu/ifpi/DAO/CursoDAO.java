@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import br.edu.ifpi.entidades.Curso;
+import br.edu.ifpi.entidades.Professor;
 import br.edu.ifpi.enums.StatusCurso;
 
 public class CursoDao implements Dao<Curso> {
@@ -20,7 +21,7 @@ public class CursoDao implements Dao<Curso> {
 
   @Override
   public int cadastrar(Curso curso) {
-    String SQL_INSERT = "INSERT INTO curso (nome, carga_horaria, status) VALUES (?,?, ?)";
+    String SQL_INSERT = "INSERT INTO curso (nome, carga_horaria, status, professor_id) VALUES (?,?, ?, ?)";
 
     try {
       PreparedStatement preparedStatement = conexao.prepareStatement(SQL_INSERT);
@@ -28,6 +29,7 @@ public class CursoDao implements Dao<Curso> {
       preparedStatement.setString(1, curso.getNome());
       preparedStatement.setInt(2, curso.getCargaHoraria());
       preparedStatement.setString(3, curso.getStatus().toString());
+      preparedStatement.setInt(4, curso.getProfessorId());
 
       int row = preparedStatement.executeUpdate();
 
@@ -55,8 +57,9 @@ public class CursoDao implements Dao<Curso> {
         String nome = result.getString("nome");
         int cargaHoraria = result.getInt("carga_horaria");
         StatusCurso status = StatusCurso.valueOf(result.getString("status"));
+        int professor = result.getInt("professor_id");
 
-        Curso curso = new Curso(id, nome, cargaHoraria, status);
+        Curso curso = new Curso(id, nome, cargaHoraria, status, professor);
         cursos.add(curso);
       }
     } catch (SQLException e) {
