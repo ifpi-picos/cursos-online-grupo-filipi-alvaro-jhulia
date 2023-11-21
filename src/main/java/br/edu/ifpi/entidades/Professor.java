@@ -18,6 +18,7 @@ public class Professor {
   }
 
   public int getId() {
+    System.out.println("1");
     return id;
   }
 

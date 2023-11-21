@@ -7,14 +7,16 @@ public class Curso {
   private String nome;
   private int cargaHoraria;
   private StatusCurso status = StatusCurso.ABERTO;
+  private Professor professor;
 
-  public Curso(String nome, int cargaHoraria, StatusCurso status) {
+  public Curso(String nome, int cargaHoraria2, StatusCurso status, Professor professor) {
     this.nome = nome;
-    this.cargaHoraria = cargaHoraria;
+    this.cargaHoraria = cargaHoraria2;
     this.status = status;
+    this.professor = professor;
   }
 
-  public Curso(int id, String nome, int cargaHoraria, StatusCurso status) {
+  public Curso(int id, String nome, int cargaHoraria, StatusCurso status, int professor2) {
     this.id = id;
     this.nome = nome;
     this.cargaHoraria = cargaHoraria;
@@ -51,6 +53,10 @@ public class Curso {
 
   public void setStatus(StatusCurso status) {
     this.status = status;
+  }
+
+  public int getProfessorId() {
+    return professor.getId();
   }
 
 }
