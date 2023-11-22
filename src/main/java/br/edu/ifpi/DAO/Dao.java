@@ -1,9 +1,5 @@
 package br.edu.ifpi.dao;
 
-import br.edu.ifpi.entidades.Aluno;
-import br.edu.ifpi.entidades.Curso;
-import br.edu.ifpi.entidades.Nota;
-
 import java.sql.SQLException;
 import java.util.List;
 

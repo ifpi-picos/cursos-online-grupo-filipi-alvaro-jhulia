@@ -8,9 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.edu.ifpi.entidades.Curso;
 import br.edu.ifpi.entidades.Professor;
-import br.edu.ifpi.enums.StatusCurso;
+import br.edu.ifpi.entidades.ProfessorCurso;
 
 public class ProfessorDao implements Dao<Professor> {
 
@@ -124,5 +123,60 @@ public class ProfessorDao implements Dao<Professor> {
     return null;
   }
 
+  public List<ProfessorCurso> cursos() {
+    String SQL_QUERY = "SELECT prof.nome, curso.nome AS curso FROM sistema_academico.professor AS prof INNER JOIN sistema_academico.curso AS curso ON prof.id = curso.professor_id;";
+
+    List<ProfessorCurso> cursos = new ArrayList<>();
+
+    try (
+      Statement statement = conexao.createStatement();
+      ResultSet result = statement.executeQuery(SQL_QUERY);
+    ) {
+      while (result.next()) {
+        String nome = result.getString("nome");
+        String curso = result.getString("nome");
+
+        ProfessorCurso item = new ProfessorCurso(nome, curso);
+        cursos.add(item);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    return cursos;
+  }
+
+  public Professor consultarPorEmail(String p_email) {
+    String SQL_QUERY = "SELECT * FROM sistema_academico.professor WHERE email = ?";
+
+    try {
+        PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
+        
+        statement.setString(1, p_email);
+        System.out.printf("%s\n", SQL_QUERY);
+        System.out.printf("SQL_QUERY com valores substituídos: %s%n\n", statement.toString());
+
+        ResultSet result = statement.executeQuery();
+        
+        System.out.println(result);
+        if (result.next()) {
+            int id = result.getInt("id");
+            String nome = result.getString("nome");
+            String email = result.getString("email");
+
+            System.out.println(id);
+            System.out.println(email);
+            System.out.println(nome);
+            
+            Professor professor = new Professor(id, nome, email);
+            System.out.println(professor);
+
+            return professor;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
+  }
 
 }

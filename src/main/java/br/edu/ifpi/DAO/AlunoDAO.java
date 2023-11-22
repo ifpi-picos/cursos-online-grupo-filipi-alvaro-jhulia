@@ -30,7 +30,7 @@ public class AlunoDao implements Dao<Aluno> {
             preparedStatement.setString(3, aluno.getStatus());
             
             int row = preparedStatement.executeUpdate();
-            
+
             return row;
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
@@ -71,7 +71,7 @@ public class AlunoDao implements Dao<Aluno> {
     
     @Override
     public int alterar(Aluno aluno) {
-        String SQL_UPDATE = "UPDATE aluno SET nome = ?, email = ?, satus = ?  WHERE id = ?";
+        String SQL_UPDATE = "UPDATE aluno SET nome = ?, email = ?, status = ?  WHERE id = ?";
         
         try {
             PreparedStatement preparedStatement = conexao.prepareStatement(SQL_UPDATE);
@@ -79,7 +79,7 @@ public class AlunoDao implements Dao<Aluno> {
             preparedStatement.setString(1, aluno.getNome());
             preparedStatement.setString(2, aluno.getEmail());
             preparedStatement.setString(3, aluno.getStatus());
-            preparedStatement.setInt(3, aluno.getId());
+            preparedStatement.setInt(4, aluno.getId());
             
             int row = preparedStatement.executeUpdate();
             
@@ -91,7 +91,7 @@ public class AlunoDao implements Dao<Aluno> {
         }
         return 0;
     }
-    
+
     @Override
     public int remover(Aluno aluno) {
         String SQL_DELETE = "DELETE FROM aluno WHERE id = ?";
@@ -111,5 +111,77 @@ public class AlunoDao implements Dao<Aluno> {
         }
         return 0;
     }
-    
+
+    public Aluno consultarPorId(int idAluno) {
+        String SQL_QUERY = "SELECT * FROM sistema_academico.aluno WHERE id = ?";
+        
+        try {
+            PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
+            
+            System.out.printf("%d",idAluno);
+            
+            statement.setInt(1,idAluno);
+            System.out.printf("%s\n", SQL_QUERY);
+            System.out.printf("SQL_QUERY com valores substituídos: %s%n\n", statement.toString());
+
+            ResultSet result = statement.executeQuery();
+            
+            System.out.println(result);
+            if (result.next()) {
+                int id = result.getInt("id");
+                String nome = result.getString("nome");
+                String email = result.getString("email");
+                StatusAluno status = result.getString("status").equals("ATIVO") ? StatusAluno.ATIVO : StatusAluno.INATIVO;
+
+                System.out.println(id);
+                System.out.println(email);
+                System.out.println(nome);
+                System.out.println(status);
+                
+                Aluno aluno = new Aluno(id, nome, email, status);
+                System.out.println(aluno);
+
+                return aluno;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Aluno consultarPorEmail(String p_email) {
+        String SQL_QUERY = "SELECT * FROM sistema_academico.aluno WHERE email = ?";
+
+        try {
+            PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
+            
+            statement.setString(1, p_email);
+            System.out.printf("%s\n", SQL_QUERY);
+            System.out.printf("SQL_QUERY com valores substituídos: %s%n\n", statement.toString());
+
+            ResultSet result = statement.executeQuery();
+            
+            System.out.println(result);
+            if (result.next()) {
+                int id = result.getInt("id");
+                String nome = result.getString("nome");
+                String email = result.getString("email");
+                StatusAluno status = result.getString("status").equals("ATIVO") ? StatusAluno.ATIVO : StatusAluno.INATIVO;
+
+                System.out.println(id);
+                System.out.println(email);
+                System.out.println(nome);
+                System.out.println(status);
+                
+                Aluno aluno = new Aluno(id, nome, email, status);
+                System.out.println(aluno);
+
+                return aluno;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

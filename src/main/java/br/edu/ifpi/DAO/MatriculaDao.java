@@ -79,6 +79,8 @@ public class MatriculaDao implements Dao<Matricula> {
             preparedStatement.setString(1, matricula.getStatus());
             preparedStatement.setInt(2, matricula.getId());
 
+            System.out.printf("SQL_QUERY com valores substituídos: %s%n\n", preparedStatement.toString());
+
             int row = preparedStatement.executeUpdate();
 
             return row;
@@ -108,6 +110,65 @@ public class MatriculaDao implements Dao<Matricula> {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public Matricula consultarPorIdAluno(int alunoId) {
+        String SQL_QUERY = "SELECT * FROM matricula WHERE aluno_id = ?";
+
+        try {
+            PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
+            
+            statement.setInt(1, alunoId);
+            System.out.printf("%s\n", SQL_QUERY);
+            System.out.printf("SQL_QUERY com valores substituídos: %s%n\n", statement.toString());
+
+            ResultSet result = statement.executeQuery();
+            
+            if (result.next()) {
+                int id = result.getInt("id");
+                int curso = result.getInt("curso_id");
+                int aluno = result.getInt("aluno_id");
+                String status = result.getString("status");
+                
+                Matricula matricula = new Matricula(id, aluno, curso, status);
+
+                return matricula;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Matricula consultarPorId(int p_id) {
+        String SQL_QUERY = "SELECT * FROM matricula WHERE id = ?";
+
+        try {
+            PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
+            
+            statement.setInt(1, p_id);
+            System.out.printf("%s\n", SQL_QUERY);
+            System.out.printf("SQL_QUERY com valores substituídos: %s%n\n", statement.toString());
+
+            ResultSet result = statement.executeQuery();
+            
+            if (result.next()) {
+                int id = result.getInt("id");
+                int curso = result.getInt("curso_id");
+                int aluno = result.getInt("aluno_id");
+                String status = result.getString("status");
+
+                
+                System.out.printf("ID: %d%n\n", id);
+
+                 Matricula matricula = new Matricula(id, aluno, curso, status);
+
+                return matricula;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

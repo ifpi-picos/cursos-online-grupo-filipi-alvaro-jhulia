@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.ifpi.entidades.Estatistica;
 import br.edu.ifpi.entidades.Nota;
 
 public class NotaDao implements Dao<Nota> {
@@ -107,6 +108,55 @@ public class NotaDao implements Dao<Nota> {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public Estatistica estatisticaAlunos() {
+        String SQL_QUERY = "SELECT MAX(nota) AS maior_nota, aluno_id FROM sistema_academico.nota GROUP BY nota, aluno_id ORDER BY MAX(nota) DESC";
+
+        try {
+            PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
+
+            ResultSet result = statement.executeQuery();
+
+            System.out.println(result);
+
+            if (result.next()) {
+                int maiorNota = result.getInt("maior_nota");
+                int alunoId = result.getInt("aluno_id");
+                
+                Estatistica estatistica = new Estatistica(maiorNota, alunoId);
+                System.out.println(estatistica);
+
+                return estatistica;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Estatistica estatisticaAlunoId(int idAluno) {
+        String SQL_QUERY = "SELECT MAX(nota) AS maior_nota, aluno_id FROM sistema_academico.nota WHERE aluno_id = ? GROUP BY nota, aluno_id ORDER BY MAX(nota) DESC";
+
+        try {
+            PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
+            statement.setInt(1, idAluno);
+
+            ResultSet result = statement.executeQuery();
+
+            if (result.next()) {
+                int maiorNota = result.getInt("maior_nota");
+                int alunoId = result.getInt("aluno_id");
+                
+                Estatistica estatistica = new Estatistica(maiorNota, alunoId);
+                System.out.println(estatistica);
+
+                return estatistica;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

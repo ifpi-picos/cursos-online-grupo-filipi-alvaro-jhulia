@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import br.edu.ifpi.entidades.Curso;
-import br.edu.ifpi.entidades.Professor;
 import br.edu.ifpi.enums.StatusCurso;
 
 public class CursoDao implements Dao<Curso> {
@@ -28,7 +27,7 @@ public class CursoDao implements Dao<Curso> {
 
       preparedStatement.setString(1, curso.getNome());
       preparedStatement.setInt(2, curso.getCargaHoraria());
-      preparedStatement.setString(3, curso.getStatus().toString());
+      preparedStatement.setString(3, curso.getStatus().getValue());
       preparedStatement.setInt(4, curso.getProfessorId());
 
       int row = preparedStatement.executeUpdate();
@@ -43,7 +42,7 @@ public class CursoDao implements Dao<Curso> {
   }
 
   @Override
-  public List<Curso> consultarTodos() throws SQLException {
+  public List<Curso> consultarTodos() {
     String SQL_QUERY = "SELECT * FROM curso";
 
     List<Curso> cursos = new ArrayList<>();
@@ -56,7 +55,7 @@ public class CursoDao implements Dao<Curso> {
         int id = result.getInt("id");
         String nome = result.getString("nome");
         int cargaHoraria = result.getInt("carga_horaria");
-        StatusCurso status = StatusCurso.valueOf(result.getString("status"));
+        StatusCurso status = result.getString("status").equals("Aberto") ? StatusCurso.ABERTO : StatusCurso.FECHADO;
         int professor = result.getInt("professor_id");
 
         Curso curso = new Curso(id, nome, cargaHoraria, status, professor);
@@ -66,14 +65,12 @@ public class CursoDao implements Dao<Curso> {
       e.printStackTrace();
     }
 
-    conexao.close();
-
     return cursos;
   }
 
   @Override
   public int alterar(Curso curso) {
-    String SQL_UPDATE = "UPDATE curso SET nome = ?, carga_horaria = ?, status = ? WHERE id = ?";
+    String SQL_UPDATE = "UPDATE curso SET nome = ?, carga_horaria = ?, status = ?, professor_id = ? WHERE id = ?";
 
     try {
       PreparedStatement preparedStatement = conexao.prepareStatement(SQL_UPDATE);
@@ -81,7 +78,8 @@ public class CursoDao implements Dao<Curso> {
       preparedStatement.setString(1, curso.getNome());
       preparedStatement.setInt(2, curso.getCargaHoraria());
       preparedStatement.setString(3, curso.getStatus().toString());
-      preparedStatement.setInt(4, curso.getId());
+      preparedStatement.setInt(4, curso.getProfessorId());
+      preparedStatement.setInt(5, curso.getId());
 
       int row = preparedStatement.executeUpdate();
 
@@ -112,6 +110,37 @@ public class CursoDao implements Dao<Curso> {
       e.printStackTrace();
     }
     return 0;
+  }
+
+  public Curso consultarPorId(int idCurso) {
+    String SQL_QUERY = "SELECT * FROM sistema_academico.curso WHERE id = ?";
+    
+    try {
+      PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
+
+      System.out.printf("%d",idCurso);
+      statement.setInt(1,idCurso);
+      System.out.printf("%s\n", SQL_QUERY);
+      System.out.printf("SQL_QUERY com valores substituídos: %s%n\n", statement.toString());
+
+      ResultSet result = statement.executeQuery();
+
+      System.out.println(result);
+      if (result.next()) {
+        int id = result.getInt("id");
+        String nome = result.getString("nome");
+        int cargaHoraria = result.getInt("carga_horaria");
+        StatusCurso status = result.getString("status").equals("Aberto") ? StatusCurso.ABERTO : StatusCurso.FECHADO;
+        int professorId = result.getInt("professor_id");
+
+        Curso curso = new Curso(id, nome, cargaHoraria, status, professorId);
+
+        return curso;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
 }
