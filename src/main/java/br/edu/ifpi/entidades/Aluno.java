@@ -43,7 +43,7 @@ public class Aluno {
   }
 
   public String getStatus() {
-    return this.status == StatusAluno.ATIVO? "ATIVO" : "INATIVO";
+    return this.status == StatusAluno.ATIVO ? "ATIVO" : "INATIVO";
   }
 
   public void setStatus(StatusAluno status) {

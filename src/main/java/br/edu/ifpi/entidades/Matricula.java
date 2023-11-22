@@ -13,6 +13,7 @@ public class Matricula {
     }
 
     public Matricula(int id, int aluno, int curso, String status) {
+        this.id = id;
         this.aluno = aluno;
         this.curso = curso;
         this.status = status;
@@ -32,5 +33,9 @@ public class Matricula {
 
     public String getStatus() {
         return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

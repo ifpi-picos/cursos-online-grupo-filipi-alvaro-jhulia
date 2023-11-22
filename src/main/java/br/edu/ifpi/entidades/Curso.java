@@ -9,9 +9,9 @@ public class Curso {
   private StatusCurso status = StatusCurso.ABERTO;
   private Professor professor;
 
-  public Curso(String nome, int cargaHoraria2, StatusCurso status, Professor professor) {
+  public Curso(String nome, int cargaHoraria, StatusCurso status, Professor professor) {
     this.nome = nome;
-    this.cargaHoraria = cargaHoraria2;
+    this.cargaHoraria = cargaHoraria;
     this.status = status;
     this.professor = professor;
   }
@@ -57,6 +57,10 @@ public class Curso {
 
   public int getProfessorId() {
     return professor.getId();
+  }
+
+  public void setProfessor(Professor professor) {
+    this.professor = professor;
   }
 
 }
