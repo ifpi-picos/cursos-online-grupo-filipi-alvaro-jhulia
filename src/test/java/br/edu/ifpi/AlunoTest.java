@@ -107,7 +107,7 @@ public class AlunoTest {
         AlunoDao alunoDao = new AlunoDao(conexao);
 
         Aluno aluno = alunoDao.consultarPorEmail("julieta@ifpi.edu.br");
-        aluno.setNome("Julieta e Romeu");
+        aluno.setNome("maykon jackson");
 
         int retornoAluno = alunoDao.alterar(aluno);
 
