@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.ifpi.entidades.Aluno;
 import br.edu.ifpi.entidades.Estatistica;
 import br.edu.ifpi.entidades.Nota;
 
@@ -135,12 +136,12 @@ public class NotaDao implements Dao<Nota> {
         return null;
     }
 
-    public Estatistica estatisticaAlunoId(int idAluno) {
+    public Estatistica getEstatisticaAluno(Aluno aluno) {
         String SQL_QUERY = "SELECT MAX(nota) AS maior_nota, aluno_id FROM sistema_academico.nota WHERE aluno_id = ? GROUP BY nota, aluno_id ORDER BY MAX(nota) DESC";
 
         try {
             PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
-            statement.setInt(1, idAluno);
+            statement.setInt(1, aluno.getId());
 
             ResultSet result = statement.executeQuery();
 

@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.ifpi.entidades.Aluno;
+import br.edu.ifpi.entidades.Curso;
 import br.edu.ifpi.entidades.Matricula;
 
 public class MatriculaDao implements Dao<Matricula> {
@@ -25,8 +27,8 @@ public class MatriculaDao implements Dao<Matricula> {
         try {
             PreparedStatement preparedStatement = conexao.prepareStatement(SQL_INSERT);
 
-            preparedStatement.setInt(1, matricula.getCurso());
-            preparedStatement.setInt(2, matricula.getAluno());
+            preparedStatement.setInt(1, matricula.getCurso().getId());
+            preparedStatement.setInt(2, matricula.getAluno().getId());
             preparedStatement.setString(3, matricula.getStatus());
 
             int row = preparedStatement.executeUpdate();
@@ -44,6 +46,8 @@ public class MatriculaDao implements Dao<Matricula> {
     public List<Matricula> consultarTodos() throws SQLException {
         String SQL_QUERY = "SELECT * FROM matricula";
 
+        CursoDao cursoDao = new CursoDao(conexao);
+        AlunoDao alunoDao = new AlunoDao(conexao);
 
         List<Matricula> matriculas = new ArrayList<>();
 
@@ -57,7 +61,10 @@ public class MatriculaDao implements Dao<Matricula> {
                 int aluno = result.getInt("aluno");
                 String status = result.getString("status");
 
-                Matricula item = new Matricula(id, curso, aluno, status);
+                Curso cursoItem = cursoDao.consultarPorId(curso);
+                Aluno alunoItem = alunoDao.consultarPorId(aluno);
+
+                Matricula item = new Matricula(id, alunoItem, cursoItem, status);
                 matriculas.add(item);
             }
         } catch (SQLException e) {
@@ -112,13 +119,16 @@ public class MatriculaDao implements Dao<Matricula> {
         return 0;
     }
 
-    public Matricula consultarPorIdAluno(int alunoId) {
+    public Matricula consultarPorAluno(Aluno aluno) {
         String SQL_QUERY = "SELECT * FROM matricula WHERE aluno_id = ?";
+
+        CursoDao cursoDao = new CursoDao(conexao);
+        AlunoDao alunoDao = new AlunoDao(conexao);
 
         try {
             PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
             
-            statement.setInt(1, alunoId);
+            statement.setInt(1, aluno.getId());
             System.out.printf("%s\n", SQL_QUERY);
             System.out.printf("SQL_QUERY com valores substituídos: %s%n\n", statement.toString());
 
@@ -126,11 +136,14 @@ public class MatriculaDao implements Dao<Matricula> {
             
             if (result.next()) {
                 int id = result.getInt("id");
-                int curso = result.getInt("curso_id");
-                int aluno = result.getInt("aluno_id");
+                int cursoId = result.getInt("curso_id");
+                int alunoId = result.getInt("aluno_id");
                 String status = result.getString("status");
                 
-                Matricula matricula = new Matricula(id, aluno, curso, status);
+                Curso cursoItem = cursoDao.consultarPorId(cursoId);
+                Aluno alunoItem = alunoDao.consultarPorId(alunoId);
+
+                Matricula matricula = new Matricula(id, alunoItem, cursoItem, status);
 
                 return matricula;
             }
@@ -142,6 +155,9 @@ public class MatriculaDao implements Dao<Matricula> {
 
     public Matricula consultarPorId(int p_id) {
         String SQL_QUERY = "SELECT * FROM matricula WHERE id = ?";
+
+        CursoDao cursoDao = new CursoDao(conexao);
+        AlunoDao alunoDao = new AlunoDao(conexao);
 
         try {
             PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
@@ -161,7 +177,10 @@ public class MatriculaDao implements Dao<Matricula> {
                 
                 System.out.printf("ID: %d%n\n", id);
 
-                 Matricula matricula = new Matricula(id, aluno, curso, status);
+                Curso cursoItem = cursoDao.consultarPorId(curso);
+                Aluno alunoItem = alunoDao.consultarPorId(aluno);
+
+                Matricula matricula = new Matricula(id, alunoItem, cursoItem, status);
 
                 return matricula;
             }

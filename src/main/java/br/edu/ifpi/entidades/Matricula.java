@@ -2,17 +2,17 @@ package br.edu.ifpi.entidades;
 
 public class Matricula {
     private int id;
-    private int aluno;
-    private int curso;
+    private Aluno aluno;
+    private Curso curso;
     private String status;
 
-    public Matricula(int aluno, int curso, String status) {
+    public Matricula(Aluno aluno, Curso curso, String status) {
         this.aluno = aluno;
         this.curso = curso;
         this.status = status;
     }
 
-    public Matricula(int id, int aluno, int curso, String status) {
+    public Matricula(int id, Aluno aluno, Curso curso, String status) {
         this.id = id;
         this.aluno = aluno;
         this.curso = curso;
@@ -23,11 +23,11 @@ public class Matricula {
         return id;
     }
 
-    public int getAluno() {
+    public Aluno getAluno() {
         return aluno;
     }
 
-    public int getCurso() {
+    public Curso getCurso() {
         return curso;
     }
 
