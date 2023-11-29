@@ -169,7 +169,7 @@ public class AlunoTest {
         
         Aluno aluno = alunoDao.consultarPorId(12);
         
-        List<String> cursosMatriculados = alunoDao.getCursosMatriculados(aluno);
+        List<String> cursosMatriculados = alunoDao.CursosMatriculados(aluno);
         
         for (String nomeCurso : cursosMatriculados) {
             System.out.println("Curso Matriculado: " + nomeCurso);
