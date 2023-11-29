@@ -167,7 +167,7 @@ public class AlunoTest {
     public void exibirCursosMatriculados() {
         AlunoDao alunoDao = new AlunoDao(conexao);
         
-        Aluno aluno = alunoDao.consultarPorId(12);
+        Aluno aluno = alunoDao.consultarPorId(13);
         
         List<String> cursosMatriculados = alunoDao.CursosMatriculados(aluno);
         

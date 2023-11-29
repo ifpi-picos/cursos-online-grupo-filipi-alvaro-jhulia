@@ -187,8 +187,8 @@ public class AlunoDao implements Dao<Aluno> {
     }
     public List<String> CursosMatriculados(Aluno aluno) {
         String SQL_QUERY = "SELECT curso.nome FROM sistema_academico.matricula " +
-                           "JOIN sistema_academico.curso ON matricula.curso_id = curso.id " +
-                           "WHERE matricula.aluno_id = ?";
+                        "JOIN sistema_academico.curso ON matricula.curso_id = curso.id " +
+                        "WHERE matricula.aluno_id = ?";
     
         List<String> cursosMatriculados = new ArrayList<>();
     
