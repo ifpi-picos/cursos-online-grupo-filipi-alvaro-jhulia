@@ -35,7 +35,7 @@ public class CursoTest {
 
         Professor professor = professorDao.consultarPorId(7);
 
-        String nome = "biologia";
+        String nome = "inglês";
         int cargaHoraria = 30;
         StatusCurso status = StatusCurso.ABERTO;
 

@@ -38,7 +38,7 @@ public class AlunoTest {
 
         Curso curso = cursoDao.consultarPorId(1);
 
-        Aluno novoAluno = new Aluno("Julieta", "julieta@ifpi.edu.br", StatusAluno.ATIVO);
+        Aluno novoAluno = new Aluno("luciana", "luci@gmail.com", StatusAluno.ATIVO);
 
         int retornoAluno = alunoDao.cadastrar(novoAluno);
 
@@ -70,9 +70,9 @@ public class AlunoTest {
         MatriculaDao matriculaDao = new MatriculaDao(conexao);
         CursoDao cursoDao = new CursoDao(conexao);
 
-        Curso curso = cursoDao.consultarPorId(4);
+        Curso curso = cursoDao.consultarPorId(7);
 
-        Aluno aluno = alunoDao.consultarPorId(12);
+        Aluno aluno = alunoDao.consultarPorId(13);
         Matricula novaMatricula = new Matricula(aluno, curso, "Ativa");
 
         int retornoMatricula = matriculaDao.cadastrar(novaMatricula);
@@ -167,7 +167,7 @@ public class AlunoTest {
     public void exibirCursosMatriculados() {
         AlunoDao alunoDao = new AlunoDao(conexao);
         
-        Aluno aluno = alunoDao.consultarPorId(12);
+        Aluno aluno = alunoDao.consultarPorId(13);
         
         List<String> cursosMatriculados = alunoDao.CursosMatriculados(aluno);
         
@@ -178,5 +178,23 @@ public class AlunoTest {
         assertTrue("A lista de cursos matriculados deve ser maior que 0", cursosMatriculados.size() > 0);
     }
     
+
+    @Test
+    public void exibirCursosConcluidos() {
+        AlunoDao alunoDao = new AlunoDao(conexao);
+    
+        Aluno aluno = alunoDao.consultarPorId(13);
+        List<String> cursosConcluidos = alunoDao.getCursosConcluidos(aluno);
+    
+        for (String nomeCurso : cursosConcluidos) {
+            System.out.println("Curso Concluído: " + nomeCurso);
+        }
+    
+        assertTrue("A lista de cursos concluídos deve ser maior que 0", cursosConcluidos.size() > 0);
+    }
+    
+    
+    
+
 
 }

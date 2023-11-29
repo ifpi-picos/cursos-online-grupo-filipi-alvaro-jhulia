@@ -212,6 +212,37 @@ public class AlunoDao implements Dao<Aluno> {
         return cursosMatriculados;
     }
     
+    public List<String> getCursosConcluidos(Aluno aluno) {
+        String SQL_QUERY = "SELECT curso.nome FROM matricula " +
+                           "JOIN curso ON matricula.curso_id = curso.id " +
+                           "WHERE matricula.aluno_id = ? AND matricula.statusCurso = 'Concluido';";
+    
+        List<String> cursosConcluidos = new ArrayList<>();
+    
+        try (PreparedStatement statement = conexao.prepareStatement(SQL_QUERY)) {
+            statement.setInt(1, aluno.getId());
+    
+            System.out.printf("SQL_QUERY com valores substituídos: %s%n\n", statement.toString());
+    
+            try (ResultSet result = statement.executeQuery()) {
+                while (result.next()) {
+                    String nomeCurso = result.getString("nome");
+                    cursosConcluidos.add(nomeCurso);
+    
+                    System.out.println("Curso Concluído: " + nomeCurso);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        return cursosConcluidos;
+    }
+    
+    
+    
+    
+
 }
 
 
