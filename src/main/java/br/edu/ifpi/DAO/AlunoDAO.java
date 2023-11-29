@@ -213,9 +213,11 @@ public class AlunoDao implements Dao<Aluno> {
     }
     
     public List<String> getCursosConcluidos(Aluno aluno) {
-        String SQL_QUERY = "SELECT curso.nome FROM matricula " +
-                           "JOIN curso ON matricula.curso_id = curso.id " +
-                           "WHERE matricula.aluno_id = ? AND matricula.statusCurso = 'Concluido';";
+        String SQL_QUERY = "SELECT DISTINCT curso.nome " +
+                           "FROM sistema_academico.matricula " +
+                           "JOIN sistema_academico.curso ON matricula.curso_id = curso.id " +
+                           "LEFT JOIN sistema_academico.nota ON matricula.id = nota.matricula_id " +
+                           "WHERE matricula.aluno_id = ? AND matricula.status = 'Concluído' AND nota.id IS NOT NULL";
     
         List<String> cursosConcluidos = new ArrayList<>();
     
@@ -238,6 +240,7 @@ public class AlunoDao implements Dao<Aluno> {
     
         return cursosConcluidos;
     }
+    
     
     
     

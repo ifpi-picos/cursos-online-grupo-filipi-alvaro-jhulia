@@ -35,7 +35,7 @@ public class CursoTest {
 
         Professor professor = professorDao.consultarPorId(7);
 
-        String nome = "inglês";
+        String nome = "SI";
         int cargaHoraria = 30;
         StatusCurso status = StatusCurso.ABERTO;
 
@@ -52,14 +52,14 @@ public class CursoTest {
 
         CursoDao cursoDao = new CursoDao(conexao);
 
-        Curso curso = cursoDao.consultarPorId(6);
+        Curso curso = cursoDao.consultarPorId(11);
 
         curso.setNome("Letras");
         curso.setCargaHoraria(100);
-        curso.setStatus(StatusCurso.FECHADO);
+        curso.setStatus(StatusCurso.ABERTO);
 
+        System.out.println("Curso alterado com sucesso" + curso.getProfessor());
         int result = cursoDao.alterar(curso);
-        System.out.println("Curso alterado com sucesso");
 
         assertTrue(result > 0);
     }

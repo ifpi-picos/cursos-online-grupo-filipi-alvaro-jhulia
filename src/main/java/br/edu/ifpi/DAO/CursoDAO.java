@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import br.edu.ifpi.entidades.Curso;
+import br.edu.ifpi.entidades.Professor;
 import br.edu.ifpi.enums.StatusCurso;
 
 public class CursoDao implements Dao<Curso> {
@@ -28,7 +29,7 @@ public class CursoDao implements Dao<Curso> {
       preparedStatement.setString(1, curso.getNome());
       preparedStatement.setInt(2, curso.getCargaHoraria());
       preparedStatement.setString(3, curso.getStatus().getValue());
-      preparedStatement.setInt(4, curso.getProfessorId());
+      preparedStatement.setInt(4, curso.getProfessor().getId());
 
       int row = preparedStatement.executeUpdate();
 
@@ -48,16 +49,15 @@ public class CursoDao implements Dao<Curso> {
     List<Curso> cursos = new ArrayList<>();
 
     try (
-      Statement statement = conexao.createStatement();
-      ResultSet result = statement.executeQuery(SQL_QUERY);
-    ) {
+        Statement statement = conexao.createStatement();
+        ResultSet result = statement.executeQuery(SQL_QUERY);) {
       while (result.next()) {
         int id = result.getInt("id");
         String nome = result.getString("nome");
         int cargaHoraria = result.getInt("carga_horaria");
         StatusCurso status = result.getString("status").equals("Aberto") ? StatusCurso.ABERTO : StatusCurso.FECHADO;
-        int professor = result.getInt("professor_id");
-
+        int professorId = result.getInt("professor_id");
+        Professor professor = new ProfessorDao(conexao).consultarPorId(professorId);
         Curso curso = new Curso(id, nome, cargaHoraria, status, professor);
         cursos.add(curso);
       }
@@ -71,14 +71,14 @@ public class CursoDao implements Dao<Curso> {
   @Override
   public int alterar(Curso curso) {
     String SQL_UPDATE = "UPDATE curso SET nome = ?, carga_horaria = ?, status = ?, professor_id = ? WHERE id = ?";
-
+    System.out.println("id " + curso.getProfessor());
     try {
       PreparedStatement preparedStatement = conexao.prepareStatement(SQL_UPDATE);
 
       preparedStatement.setString(1, curso.getNome());
       preparedStatement.setInt(2, curso.getCargaHoraria());
       preparedStatement.setString(3, curso.getStatus().toString());
-      preparedStatement.setInt(4, curso.getProfessorId());
+      preparedStatement.setInt(4, curso.getProfessor().getId());
       preparedStatement.setInt(5, curso.getId());
 
       int row = preparedStatement.executeUpdate();
@@ -92,8 +92,6 @@ public class CursoDao implements Dao<Curso> {
     }
     return 0;
   }
-
-
 
   @Override
   public int remover(Curso curso) {
@@ -117,12 +115,12 @@ public class CursoDao implements Dao<Curso> {
 
   public Curso consultarPorId(int idCurso) {
     String SQL_QUERY = "SELECT * FROM sistema_academico.curso WHERE id = ?";
-    
-    try {
-      PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
 
-      System.out.printf("%d",idCurso);
-      statement.setInt(1,idCurso);
+    try {
+      PreparedStatement statement = conexao.prepareStatement(SQL_QUERY);
+
+      System.out.printf("%d", idCurso);
+      statement.setInt(1, idCurso);
       System.out.printf("%s\n", SQL_QUERY);
       System.out.printf("SQL_QUERY com valores substituídos: %s%n\n", statement.toString());
 
@@ -136,7 +134,9 @@ public class CursoDao implements Dao<Curso> {
         StatusCurso status = result.getString("status").equals("Aberto") ? StatusCurso.ABERTO : StatusCurso.FECHADO;
         int professorId = result.getInt("professor_id");
 
-        Curso curso = new Curso(id, nome, cargaHoraria, status, professorId);
+        Professor professor = new ProfessorDao(conexao).consultarPorId(professorId);
+
+        Curso curso = new Curso(id, nome, cargaHoraria, status, professor);
 
         return curso;
       }

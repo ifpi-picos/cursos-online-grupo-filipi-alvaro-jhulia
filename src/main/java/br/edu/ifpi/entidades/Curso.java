@@ -16,11 +16,12 @@ public class Curso {
     this.professor = professor;
   }
 
-  public Curso(int id, String nome, int cargaHoraria, StatusCurso status, int professor2) {
+  public Curso(int id, String nome, int cargaHoraria, StatusCurso status, Professor professor) {
     this.id = id;
     this.nome = nome;
     this.cargaHoraria = cargaHoraria;
     this.status = status;
+    this.professor = professor;
   }
 
   public int getId() {
@@ -55,8 +56,8 @@ public class Curso {
     this.status = status;
   }
 
-  public int getProfessorId() {
-    return professor.getId();
+  public Professor getProfessor() {
+    return professor;
   }
 
   public void setProfessor(Professor professor) {
