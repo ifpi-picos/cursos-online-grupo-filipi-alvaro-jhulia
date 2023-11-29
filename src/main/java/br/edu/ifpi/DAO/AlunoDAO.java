@@ -8,7 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import br.edu.ifpi.entidades.Aluno;
+import br.edu.ifpi.entidades.Curso;
 import br.edu.ifpi.enums.StatusAluno;
+import br.edu.ifpi.enums.StatusCurso;
 
 public class AlunoDao implements Dao<Aluno> {
     
@@ -183,5 +185,35 @@ public class AlunoDao implements Dao<Aluno> {
         }
         return null;
     }
-
+    public List<String> getCursosMatriculados(Aluno aluno) {
+        String SQL_QUERY = "SELECT curso.nome FROM sistema_academico.matricula " +
+                           "JOIN sistema_academico.curso ON matricula.curso_id = curso.id " +
+                           "WHERE matricula.aluno_id = ?";
+    
+        List<String> cursosMatriculados = new ArrayList<>();
+    
+        try (PreparedStatement statement = conexao.prepareStatement(SQL_QUERY)) {
+            statement.setInt(1, aluno.getId());
+    
+            System.out.printf("SQL_QUERY com valores substituídos: %s%n\n", statement.toString());
+    
+            try (ResultSet result = statement.executeQuery()) {
+                while (result.next()) {
+                    String nomeCurso = result.getString("nome");
+                    cursosMatriculados.add(nomeCurso);
+    
+                    System.out.println("Curso Matriculado: " + nomeCurso);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        return cursosMatriculados;
+    }
+    
 }
+
+
+    
+

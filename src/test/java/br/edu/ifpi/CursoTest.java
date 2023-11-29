@@ -33,28 +33,33 @@ public class CursoTest {
         CursoDao cursoDao = new CursoDao(conexao);
         ProfessorDao professorDao = new ProfessorDao(conexao);
 
-        Professor professor = professorDao.consultarPorId(4);
+        Professor professor = professorDao.consultarPorId(7);
 
-        String nome = "Matemática";
-        int cargaHoraria = 60;
+        String nome = "biologia";
+        int cargaHoraria = 30;
         StatusCurso status = StatusCurso.ABERTO;
 
         Curso novoCurso = new Curso(nome, cargaHoraria, status, professor);
 
         int retorno = cursoDao.cadastrar(novoCurso);
+        System.out.println("Curso cadastrado com sucesso");
 
         assertTrue(retorno > 0);
     }
 
     @Test
     public void alterarInformacoesCurso() {
+
         CursoDao cursoDao = new CursoDao(conexao);
 
         Curso curso = cursoDao.consultarPorId(6);
 
-        curso.setCargaHoraria(60);
+        curso.setNome("Letras");
+        curso.setCargaHoraria(100);
+        curso.setStatus(StatusCurso.FECHADO);
 
         int result = cursoDao.alterar(curso);
+        System.out.println("Curso alterado com sucesso");
 
         assertTrue(result > 0);
     }
@@ -87,8 +92,8 @@ public class CursoTest {
         NotaDao notaDao = new NotaDao(conexao);
         AlunoDao alunoDao = new AlunoDao(conexao);
 
-        Curso curso = cursoDao.consultarPorId(6);
-        Aluno aluno = alunoDao.consultarPorId(13);
+        Curso curso = cursoDao.consultarPorId(2);
+        Aluno aluno = alunoDao.consultarPorId(12);
         Nota nota = new Nota(10, aluno.getId(), curso.getId());
 
         int result = notaDao.cadastrar(nota);

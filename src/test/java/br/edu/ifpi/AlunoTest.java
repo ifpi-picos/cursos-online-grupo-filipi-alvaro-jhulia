@@ -70,9 +70,9 @@ public class AlunoTest {
         MatriculaDao matriculaDao = new MatriculaDao(conexao);
         CursoDao cursoDao = new CursoDao(conexao);
 
-        Curso curso = cursoDao.consultarPorId(1);
+        Curso curso = cursoDao.consultarPorId(4);
 
-        Aluno aluno = alunoDao.consultarPorEmail("julieta@ifpi.edu.br");
+        Aluno aluno = alunoDao.consultarPorId(12);
         Matricula novaMatricula = new Matricula(aluno, curso, "Ativa");
 
         int retornoMatricula = matriculaDao.cadastrar(novaMatricula);
@@ -161,5 +161,22 @@ public class AlunoTest {
         
         assertTrue(cursos.size() > 0);
     }
+
+
+    @Test
+    public void exibirCursosMatriculados() {
+        AlunoDao alunoDao = new AlunoDao(conexao);
+        
+        Aluno aluno = alunoDao.consultarPorId(12);
+        
+        List<String> cursosMatriculados = alunoDao.getCursosMatriculados(aluno);
+        
+        for (String nomeCurso : cursosMatriculados) {
+            System.out.println("Curso Matriculado: " + nomeCurso);
+        }
+        
+        assertTrue("A lista de cursos matriculados deve ser maior que 0", cursosMatriculados.size() > 0);
+    }
+    
 
 }

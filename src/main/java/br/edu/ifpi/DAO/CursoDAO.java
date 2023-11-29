@@ -87,10 +87,13 @@ public class CursoDao implements Dao<Curso> {
     } catch (SQLException e) {
       System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
     } catch (Exception e) {
+      System.out.println("Erro ao atualizar curso");
       e.printStackTrace();
     }
     return 0;
   }
+
+
 
   @Override
   public int remover(Curso curso) {
