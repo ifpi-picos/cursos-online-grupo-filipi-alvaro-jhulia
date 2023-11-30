@@ -153,6 +153,26 @@ public class MatriculaDao implements Dao<Matricula> {
         return null;
     }
 
+    public int consultarQuantidadeAlunos(int curso_id) {
+        String SQL_QUERY = "SELECT COUNT(*) AS quantidade FROM matricula WHERE curso_id = ? AND status = 'Ativa'";
+        
+        try {
+            PreparedStatement preparedStatement = conexao.prepareStatement(SQL_QUERY);
+            preparedStatement.setInt(1, curso_id);
+    
+            ResultSet result = preparedStatement.executeQuery();
+    
+            if (result.next()) {
+                int quantidade = result.getInt("quantidade");
+                return quantidade;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+    
+        return 0;
+    }
+
     public Matricula consultarPorId(int p_id) {
         String SQL_QUERY = "SELECT * FROM matricula WHERE id = ?";
 
