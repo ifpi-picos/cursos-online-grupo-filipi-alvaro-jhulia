@@ -121,6 +121,11 @@ public class CursoTest {
         System.out.println("O curso possui " + matriculaDao.consultarQuantidadeAlunos(curso.getId()) + "matriculados.");
     }
 
+    public void exibirMediaGeral (){
+        NotaDao notaDao = new NotaDao(conexao);
+
+        notaDao.exibirMediaGeral();
+    }
 
 }
 
