@@ -114,6 +114,13 @@ public class CursoTest {
         assertTrue(estatistica.getMaiorNota() > 0);
     }
 
+    public void exibirQuantidadeAlunos(){
+        MatriculaDao matriculaDao = new MatriculaDao(conexao);
+        CursoDao cursoDao = new CursoDao(conexao);
+
+        System.out.println("O curso possui " + matriculaDao.consultarQuantidadeAlunos(curso.getId()) + "matriculados.");
+    }
+
 
 }
 
