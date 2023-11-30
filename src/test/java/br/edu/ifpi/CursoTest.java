@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import br.edu.ifpi.dao.MatriculaDao;
 import br.edu.ifpi.dao.AlunoDao;
 import br.edu.ifpi.dao.Conexao;
 import br.edu.ifpi.dao.CursoDao;
@@ -125,6 +126,13 @@ public class CursoTest {
         NotaDao notaDao = new NotaDao(conexao);
 
         notaDao.exibirMediaGeral();
+    }
+
+    public void percentualAprovacao(){
+        MatriculaDao matriculaDao = new MatriculaDao(conexao);
+        CursoDao cursoDao = new CursoDao(conexao);
+
+        System.out.println(matriculaDao.calcularPorcentagemAprovacao(cursoDao.getId()));
     }
 
 }
