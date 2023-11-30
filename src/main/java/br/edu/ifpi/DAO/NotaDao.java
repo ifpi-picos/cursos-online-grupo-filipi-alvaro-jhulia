@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.text.DecimalFormat;
 
 import br.edu.ifpi.entidades.Aluno;
 import br.edu.ifpi.entidades.Estatistica;
@@ -158,6 +159,24 @@ public class NotaDao implements Dao<Nota> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void exibirMediaGeral() {
+        String SQL_QUERY = "SELECT AVG(nota) AS media FROM nota";
+
+        try {
+            PreparedStatement statement = conexao.prepareStatement(SQL_QUERY);
+            ResultSet result = statement.executeQuery();
+
+            if (result.next()) {
+                double media = result.getDouble("media");
+                DecimalFormat df = new DecimalFormat("#.##");
+                System.out.println("A média geral dos alunos é: " + df.format(media));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Não foi possível obter a média geral dos alunos.");
+        }
     }
 
 }
