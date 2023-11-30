@@ -3,6 +3,8 @@ package br.edu.ifpi;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.junit.Before;
@@ -52,7 +54,7 @@ public class CursoTest {
 
         CursoDao cursoDao = new CursoDao(conexao);
 
-        Curso curso = cursoDao.consultarPorId(11);
+        Curso curso = cursoDao.consultarPorId(8);
 
         curso.setNome("Letras");
         curso.setCargaHoraria(100);
@@ -93,8 +95,8 @@ public class CursoTest {
         AlunoDao alunoDao = new AlunoDao(conexao);
 
         Curso curso = cursoDao.consultarPorId(2);
-        Aluno aluno = alunoDao.consultarPorId(12);
-        Nota nota = new Nota(10, aluno.getId(), curso.getId());
+        Aluno aluno = alunoDao.consultarPorId(3);
+        Nota nota = new Nota(9, aluno.getId(), curso.getId());
 
         int result = notaDao.cadastrar(nota);
 
@@ -111,4 +113,7 @@ public class CursoTest {
 
         assertTrue(estatistica.getMaiorNota() > 0);
     }
+
+
 }
+

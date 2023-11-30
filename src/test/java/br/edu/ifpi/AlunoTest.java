@@ -121,49 +121,6 @@ public class AlunoTest {
     }
 
     @Test
-    public void associarProfessoresCursos() {
-        ProfessorDao professorDao = new ProfessorDao(conexao);
-        CursoDao cursoDao = new CursoDao(conexao);
-
-        Professor professor = professorDao.consultarPorId(7);
-        Curso curso = cursoDao.consultarPorId(1);
-        curso.setProfessor(professor);
-
-        int retorno = cursoDao.alterar(curso);
-
-        assertTrue(retorno > 0);
-    }
-
-    @Test
-    public void alterarInformacoesProfessor() {
-        ProfessorDao professorDao = new ProfessorDao(conexao);
-
-        Professor professor = professorDao.consultarPorId(4);
-
-        professor.setNome("Jesiel");
-        professor.setEmail("jesiel@ifpi.edu.br");
-
-        int result = professorDao.alterar(professor);
-
-        assertTrue(result > 0);
-    }
-
-    @Test
-    public void professoresCursos() {
-        ProfessorDao professorDao = new ProfessorDao(conexao);
-        
-        List<ProfessorCurso> cursos = professorDao.cursos();
-
-        for(int i = 0; i < cursos.size(); i++) {
-            ProfessorCurso professorCurso = cursos.get(i);
-            System.out.println("Professor: " + professorCurso.getNome() + " - Curso: " + professorCurso.getCurso());
-        }
-        
-        assertTrue(cursos.size() > 0);
-    }
-
-
-    @Test
     public void exibirCursosMatriculados() {
         AlunoDao alunoDao = new AlunoDao(conexao);
         
