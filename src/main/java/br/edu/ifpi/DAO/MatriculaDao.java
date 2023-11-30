@@ -210,4 +210,76 @@ public class MatriculaDao implements Dao<Matricula> {
         return null;
     }
 
+    public int contarAlunosComNotaMaiorQueSete(int cursoId) {
+        String SQL_QUERY = "SELECT COUNT(DISTINCT m.aluno_id) AS quantidade " +
+                           "FROM matricula m " +
+                           "JOIN nota n ON m.aluno_id = n.aluno_id AND m.curso_id = n.curso_id " +
+                           "WHERE m.curso_id = ? AND m.status = 'Ativa' AND n.nota > 7";
+
+        try {
+            PreparedStatement preparedStatement = conexao.prepareStatement(SQL_QUERY);
+            preparedStatement.setInt(1, cursoId);
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            if (result.next()) {
+                return result.getInt("quantidade");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public int contarAlunosComNotaMenorQueSete(int cursoId) {
+        String SQL_QUERY = "SELECT COUNT(DISTINCT m.aluno_id) AS quantidade " +
+                           "FROM matricula m " +
+                           "JOIN nota n ON m.aluno_id = n.aluno_id AND m.curso_id = n.curso_id " +
+                           "WHERE m.curso_id = ? AND m.status = 'Ativa' AND (n.nota IS NULL OR n.nota <= 7)";
+
+        try {
+            PreparedStatement preparedStatement = conexao.prepareStatement(SQL_QUERY);
+            preparedStatement.setInt(1, cursoId);
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            if (result.next()) {
+                return result.getInt("quantidade");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public String calcularPorcentagemAprovacao(int cursoId) {
+        String SQL_QUERY = "SELECT " +
+                           "  (SUM(CASE WHEN n.nota >= 7 THEN 1 ELSE 0 END) / COUNT(DISTINCT m.aluno_id)) * 100 AS porcentagem_aprovados, " +
+                           "  (SUM(CASE WHEN n.nota < 7 OR n.nota IS NULL THEN 1 ELSE 0 END) / COUNT(DISTINCT m.aluno_id)) * 100 AS porcentagem_reprovados " +
+                           "FROM matricula m " +
+                           "JOIN nota n ON m.aluno_id = n.aluno_id AND m.curso_id = n.curso_id " +
+                           "WHERE m.curso_id = ? AND m.status = 'Ativa'";
+
+        try {
+            PreparedStatement preparedStatement = conexao.prepareStatement(SQL_QUERY);
+            preparedStatement.setInt(1, cursoId);
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            if (result.next()) {
+                double porcentagemAprovados = result.getDouble("porcentagem_aprovados");
+                double porcentagemReprovados = result.getDouble("porcentagem_reprovados");
+
+                return String.format("Porcentagem de aprovados: %.2f%% | Porcentagem de reprovados: %.2f%%",
+                                     porcentagemAprovados, porcentagemReprovados);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return "Não foi possível calcular a porcentagem de alunos aprovados e reprovados.";
+    }
+
 }
