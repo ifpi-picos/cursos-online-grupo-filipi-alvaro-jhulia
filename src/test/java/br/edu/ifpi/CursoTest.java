@@ -36,10 +36,10 @@ public class CursoTest {
         CursoDao cursoDao = new CursoDao(conexao);
         ProfessorDao professorDao = new ProfessorDao(conexao);
 
-        Professor professor = professorDao.consultarPorId(7);
+        Professor professor = professorDao.consultarPorId(2);
 
-        String nome = "SI";
-        int cargaHoraria = 30;
+        String nome = "Historia";
+        int cargaHoraria = 40;
         StatusCurso status = StatusCurso.ABERTO;
 
         Curso novoCurso = new Curso(nome, cargaHoraria, status, professor);
@@ -96,8 +96,8 @@ public class CursoTest {
         AlunoDao alunoDao = new AlunoDao(conexao);
 
         Curso curso = cursoDao.consultarPorId(2);
-        Aluno aluno = alunoDao.consultarPorId(3);
-        Nota nota = new Nota(9, aluno.getId(), curso.getId());
+        Aluno aluno = alunoDao.consultarPorId(1);
+        Nota nota = new Nota(8, aluno.getId(), curso.getId());
 
         int result = notaDao.cadastrar(nota);
 

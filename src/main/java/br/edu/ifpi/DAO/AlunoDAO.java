@@ -211,35 +211,36 @@ public class AlunoDao implements Dao<Aluno> {
     
         return cursosMatriculados;
     }
-    
-    public List<String> getCursosConcluidos(Aluno aluno) {
-        String SQL_QUERY = "SELECT DISTINCT curso.nome " +
-                        "FROM sistema_academico.matricula " +
-                        "JOIN sistema_academico.curso ON matricula.curso_id = curso.id " +
-                        "LEFT JOIN sistema_academico.nota ON matricula.id = nota.matricula_id " +
-                        "WHERE matricula.aluno_id = ? AND matricula.status = 'Concluído' AND nota.id IS NOT NULL";
-    
+
+
+    public List<String> exibirCursosConcluidos(Aluno aluno, Connection connection) {
         List<String> cursosConcluidos = new ArrayList<>();
     
-        try (PreparedStatement statement = conexao.prepareStatement(SQL_QUERY)) {
-            statement.setInt(1, aluno.getId());
+        try {
+            String sql = "SELECT curso.nome " +
+                         "FROM curso " +
+                         "JOIN nota ON curso.id = nota.curso_id " +
+                         "WHERE nota.aluno_id = ? AND nota.status = 'Concluído'";
     
-            System.out.printf("SQL_QUERY com valores substituídos: %s%n\n", statement.toString());
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setLong(1, aluno.getId());
     
-            try (ResultSet result = statement.executeQuery()) {
-                while (result.next()) {
-                    String nomeCurso = result.getString("nome");
-                    cursosConcluidos.add(nomeCurso);
-    
-                    System.out.println("Curso Concluído: " + nomeCurso);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String nomeCurso = resultSet.getString("nome");
+                        cursosConcluidos.add(nomeCurso);
+                    }
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Lide com a exceção de maneira apropriada no seu código
         }
     
         return cursosConcluidos;
     }
+    
+    
+
 
 }
 
