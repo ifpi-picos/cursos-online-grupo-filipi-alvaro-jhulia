@@ -30,7 +30,7 @@ public class AlunoTest {
         conexao = Conexao.getConexao();
     }
 
-    @Test
+    @Test    // Teste de cadastro de aluno
     public void cadastrarAluno() {
         AlunoDao alunoDao = new AlunoDao(conexao);
         MatriculaDao matriculaDao = new MatriculaDao(conexao);
@@ -51,7 +51,8 @@ public class AlunoTest {
         assertTrue(retornoMatricula > 0);
     }
 
-    @Test
+
+    @Test   // Teste de visualização de perfil de aluno
     public void visualizarPerfil() {
         AlunoDao alunoDao = new AlunoDao(conexao);
 
@@ -64,7 +65,8 @@ public class AlunoTest {
         assertTrue(aluno != null);
     }
 
-    @Test
+
+    @Test     // Teste para realizar matrícula
     public void realizarMatricula() {
         AlunoDao alunoDao = new AlunoDao(conexao);
         MatriculaDao matriculaDao = new MatriculaDao(conexao);
@@ -79,8 +81,9 @@ public class AlunoTest {
 
         assertTrue(retornoMatricula > 0);
     }
+ 
 
-    @Test
+    @Test        // Teste para cancelar matrícula
     public void cancelarMatricula() {
         AlunoDao alunoDao = new AlunoDao(conexao);
         MatriculaDao matriculaDao = new MatriculaDao(conexao);
@@ -95,7 +98,8 @@ public class AlunoTest {
         assertTrue(resultado > 0);
     }
 
-    @Test
+
+    @Test      // Teste para ver as estatisticas de desempenho
     public void estatisticaDesempenho() {
         AlunoDao alunoDao = new AlunoDao(conexao);
         NotaDao notaDao = new NotaDao(conexao);
@@ -108,7 +112,8 @@ public class AlunoTest {
         assertTrue(estatistica != null);
     }
 
-    @Test
+
+    @Test     // Teste para atualizar dados do aluno
     public void atualizarAluno() {
         AlunoDao alunoDao = new AlunoDao(conexao);
 
@@ -120,11 +125,12 @@ public class AlunoTest {
         assertTrue(retornoAluno > 0);
     }
 
-    @Test
+
+    @Test      // Teste para exibir cursos matriculados
     public void exibirCursosMatriculados() {
         AlunoDao alunoDao = new AlunoDao(conexao);
         
-        Aluno aluno = alunoDao.consultarPorId(13);
+        Aluno aluno = alunoDao.consultarPorId(2);
         
         List<String> cursosMatriculados = alunoDao.CursosMatriculados(aluno);
         
@@ -135,7 +141,8 @@ public class AlunoTest {
         assertTrue("A lista de cursos matriculados deve ser maior que 0", cursosMatriculados.size() > 0);
     }
     
-    @Test
+
+    @Test     // Teste para exibir cursos concluídos
     public void exibirCursosConcluidos() {
         AlunoDao alunoDao = new AlunoDao(conexao);
         Aluno aluno = alunoDao.consultarPorId(2);

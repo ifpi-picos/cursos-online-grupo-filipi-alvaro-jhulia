@@ -31,7 +31,7 @@ public class CursoTest {
         conexao = Conexao.getConexao();
     }
 
-    @Test
+    @Test      // Teste de cadastro de curso
     public void cadastrarCurso() {
         CursoDao cursoDao = new CursoDao(conexao);
         ProfessorDao professorDao = new ProfessorDao(conexao);
@@ -50,7 +50,8 @@ public class CursoTest {
         assertTrue(retorno > 0);
     }
 
-    @Test
+
+    @Test     // Teste de alteração de informações de curso
     public void alterarInformacoesCurso() {
 
         CursoDao cursoDao = new CursoDao(conexao);
@@ -67,7 +68,8 @@ public class CursoTest {
         assertTrue(result > 0);
     }
 
-    @Test
+
+    @Test     // Teste para exibir cursos disponíveis
     public void exibirCursosDisponiveis() {
         CursoDao cursoDao = new CursoDao(conexao);
 
@@ -89,7 +91,7 @@ public class CursoTest {
         assertTrue(result > 0);
     }
 
-    @Test
+    @Test     // Teste para registrar nota de um aluno no curso e já ver se o aluno foi aprovado ou não
     public void registrarNota() {
         CursoDao cursoDao = new CursoDao(conexao);
         NotaDao notaDao = new NotaDao(conexao);
@@ -97,14 +99,15 @@ public class CursoTest {
 
         Curso curso = cursoDao.consultarPorId(2);
         Aluno aluno = alunoDao.consultarPorId(1);
-        Nota nota = new Nota(8, aluno.getId(), curso.getId());
+        Nota nota = new Nota(8, aluno.getId(), curso.getId()); //coloque aqui a nota do aluno
 
         int result = notaDao.cadastrar(nota);
 
         assertTrue(result > 0);
     }
 
-    @Test
+
+    @Test     // Teste para gerar estatísticas de alunos
     public void gerarEstatisticasAlunos() {
         NotaDao notaDao = new NotaDao(conexao);
         
@@ -134,7 +137,8 @@ public class CursoTest {
     }
 
 
-    @Test
+
+    @Test    // Teste para exibir a porcetagem de cursos (concluidos e não concluidos)
     public void testCalcularPorcentagemCursos() {
       CursoDao CursoDao = new CursoDao(conexao);
 

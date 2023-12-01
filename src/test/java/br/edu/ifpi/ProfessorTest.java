@@ -23,7 +23,7 @@ public class ProfessorTest {
         conexao = Conexao.getConexao();
     }
 
-    @Test
+    @Test     // Teste de cadastro de professor
     public void cadastrarProfessor() {
         ProfessorDao professorDao = new ProfessorDao(conexao);
 
@@ -37,7 +37,8 @@ public class ProfessorTest {
         assertTrue(retorno > 0);
     }
 
-    @Test
+
+    @Test     // Teste de associação de professor a curso
     public void associarProfessoresCursos() {
         ProfessorDao professorDao = new ProfessorDao(conexao);
         CursoDao cursoDao = new CursoDao(conexao);
@@ -51,7 +52,8 @@ public class ProfessorTest {
         assertTrue(retorno > 0);
     }
 
-    @Test
+
+    @Test     // Teste de alteração de informações de professor
     public void alterarInformacoesProfessor() {
         ProfessorDao professorDao = new ProfessorDao(conexao);
 
@@ -65,7 +67,7 @@ public class ProfessorTest {
         assertTrue(result > 0);
     }
 
-    @Test
+    @Test     // Teste para visualizar cursos de um professor
     public void professoresCursos() {
         ProfessorDao professorDao = new ProfessorDao(conexao);
         
