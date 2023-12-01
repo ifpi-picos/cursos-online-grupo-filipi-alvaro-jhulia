@@ -133,5 +133,13 @@ public class CursoTest {
         System.out.println(matriculaDao.calcularPorcentagemAprovacao(2));
     }
 
+
+    @Test
+    public void testCalcularPorcentagemCursos() {
+      CursoDao CursoDao = new CursoDao(conexao);
+
+      CursoDao.calcularPorcentagemCursos(conexao);
+   }
+
 }
 

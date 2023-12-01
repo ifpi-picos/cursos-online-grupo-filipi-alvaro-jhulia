@@ -146,4 +146,31 @@ public class CursoDao implements Dao<Curso> {
     return null;
   }
 
+
+
+
+  public void calcularPorcentagemCursos(Connection connection) {
+    String SQL_QUERY = "SELECT COUNT(*) AS totalCursos, " +
+                       "SUM(CASE WHEN status = 'Concluído' THEN 1 ELSE 0 END) AS cursosConcluidos " +
+                       "FROM nota";
+
+    try (Statement statement = connection.createStatement();
+         ResultSet result = statement.executeQuery(SQL_QUERY)) {
+
+        if (result.next()) {
+            int totalCursos = result.getInt("totalCursos");
+            int cursosConcluidos = result.getInt("cursosConcluidos");
+            int cursosNaoConcluidos = totalCursos - cursosConcluidos;
+
+            double porcentagemConcluidos = ((double) cursosConcluidos / totalCursos) * 100;
+            double porcentagemNaoConcluidos = ((double) cursosNaoConcluidos / totalCursos) * 100;
+
+            System.out.println("\nPorcentagem de cursos:\n");
+            System.out.println("Porcentagem de Cursos Concluidos: " + porcentagemConcluidos + "%");
+            System.out.println("Porcentagem de Cursos Nao Concluidos: " + porcentagemNaoConcluidos + "%");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
 }

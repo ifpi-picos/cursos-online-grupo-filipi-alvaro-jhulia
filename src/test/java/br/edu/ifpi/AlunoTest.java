@@ -149,12 +149,5 @@ public class AlunoTest {
         assertTrue("A lista de nomes de cursos concluídos deve ser maior que 0", cursosConcluidos.size() > 0);
     }
     
-
-    @Test
-    public void testCalcularPorcentagemCursos() {
-      AlunoDao alunoDao = new AlunoDao(conexao);
-
-      alunoDao.calcularPorcentagemCursos(conexao);
-   }
     
 }
