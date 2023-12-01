@@ -150,6 +150,11 @@ public class AlunoTest {
     }
     
 
-    
+    @Test
+    public void testCalcularPorcentagemCursos() {
+      AlunoDao alunoDao = new AlunoDao(conexao);
 
+      alunoDao.calcularPorcentagemCursos(conexao);
+   }
+    
 }
