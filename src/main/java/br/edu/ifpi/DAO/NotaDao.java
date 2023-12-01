@@ -161,21 +161,23 @@ public class NotaDao implements Dao<Nota> {
         return null;
     }
 
-    public void exibirMediaGeral() {
-        String SQL_QUERY = "SELECT AVG(nota) AS media FROM nota";
-
+    public void exibirMediaCurso(int cursoId) {
+        String SQL_QUERY = "SELECT AVG(nota) AS media FROM nota WHERE curso_id = ?";
+    
         try {
             PreparedStatement statement = conexao.prepareStatement(SQL_QUERY);
+            statement.setInt(1, cursoId);
+    
             ResultSet result = statement.executeQuery();
-
+    
             if (result.next()) {
                 double media = result.getDouble("media");
                 DecimalFormat df = new DecimalFormat("#.##");
-                System.out.println("A média geral dos alunos é: " + df.format(media));
+                System.out.println("A média geral do curso " + cursoId + " é: " + df.format(media));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Não foi possível obter a média geral dos alunos.");
+            System.out.println("Não foi possível obter a média geral do curso " + cursoId);
         }
     }
 

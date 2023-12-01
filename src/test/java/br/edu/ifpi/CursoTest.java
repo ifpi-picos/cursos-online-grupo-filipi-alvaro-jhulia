@@ -117,22 +117,20 @@ public class CursoTest {
 
     public void exibirQuantidadeAlunos(){
         MatriculaDao matriculaDao = new MatriculaDao(conexao);
-        CursoDao cursoDao = new CursoDao(conexao);
 
-        System.out.println("O curso possui " + matriculaDao.consultarQuantidadeAlunos(curso.getId()) + "matriculados.");
+        System.out.println("O curso possui " + matriculaDao.consultarQuantidadeAlunos(2) + "matriculados.");
     }
 
     public void exibirMediaGeral (){
         NotaDao notaDao = new NotaDao(conexao);
 
-        notaDao.exibirMediaGeral();
+        notaDao.exibirMediaCurso(2);
     }
 
     public void percentualAprovacao(){
         MatriculaDao matriculaDao = new MatriculaDao(conexao);
-        CursoDao cursoDao = new CursoDao(conexao);
 
-        System.out.println(matriculaDao.calcularPorcentagemAprovacao(cursoDao.getId()));
+        System.out.println(matriculaDao.calcularPorcentagemAprovacao(2));
     }
 
 }
