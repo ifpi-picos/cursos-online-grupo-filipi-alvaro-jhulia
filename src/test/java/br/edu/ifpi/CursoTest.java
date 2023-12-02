@@ -1,5 +1,6 @@
 package br.edu.ifpi;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
@@ -22,6 +23,7 @@ import br.edu.ifpi.entidades.Estatistica;
 import br.edu.ifpi.entidades.Nota;
 import br.edu.ifpi.entidades.Professor;
 import br.edu.ifpi.enums.StatusCurso;
+import br.edu.ifpi.enums.StatusNota;
 
 public class CursoTest {
     Connection conexao;
@@ -56,7 +58,7 @@ public class CursoTest {
 
         CursoDao cursoDao = new CursoDao(conexao);
 
-        Curso curso = cursoDao.consultarPorId(8);
+        Curso curso = cursoDao.consultarPorId(1);
 
         curso.setNome("Letras");
         curso.setCargaHoraria(100);
@@ -93,14 +95,9 @@ public class CursoTest {
 
     @Test     // Teste para registrar nota de um aluno no curso e já ver se o aluno foi aprovado ou não
     public void registrarNota() {
-        CursoDao cursoDao = new CursoDao(conexao);
         NotaDao notaDao = new NotaDao(conexao);
-        AlunoDao alunoDao = new AlunoDao(conexao);
-
-        Curso curso = cursoDao.consultarPorId(2);
-        Aluno aluno = alunoDao.consultarPorId(1);
-        Nota nota = new Nota(8, aluno.getId(), curso.getId()); //coloque aqui a nota do aluno
-
+        Nota nota = new Nota(10, 10, 1, StatusNota.APROVADO);
+        
         int result = notaDao.cadastrar(nota);
 
         assertTrue(result > 0);
@@ -121,13 +118,13 @@ public class CursoTest {
     public void exibirQuantidadeAlunos(){
         MatriculaDao matriculaDao = new MatriculaDao(conexao);
 
-        System.out.println("O curso possui " + matriculaDao.consultarQuantidadeAlunos(2) + "matriculados.");
+        System.out.println("O curso possui " + matriculaDao.consultarQuantidadeAlunos(1) + "matriculados.");
     }
 
     public void exibirMediaGeral (){
         NotaDao notaDao = new NotaDao(conexao);
 
-        notaDao.exibirMediaCurso(2);
+        notaDao.exibirMediaCurso(1);
     }
 
     public void percentualAprovacao(){
@@ -138,12 +135,13 @@ public class CursoTest {
 
 
 
+
     @Test    // Teste para exibir a porcetagem de cursos (concluidos e não concluidos)
     public void testCalcularPorcentagemCursos() {
-      CursoDao CursoDao = new CursoDao(conexao);
+    CursoDao CursoDao = new CursoDao(conexao);
 
-      CursoDao.calcularPorcentagemCursos(conexao);
-   }
+    CursoDao.calcularPorcentagemCursos(conexao);
+}
 
 }
 

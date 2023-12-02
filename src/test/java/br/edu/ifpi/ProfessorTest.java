@@ -27,8 +27,8 @@ public class ProfessorTest {
     public void cadastrarProfessor() {
         ProfessorDao professorDao = new ProfessorDao(conexao);
 
-        String nome = "Rodrigo";
-        String email = "Rodrigo@ifpi.edu.br";
+        String nome = "Rafael";
+        String email = "Rafael@ifpi.edu.br";
 
         Professor novoProfessor = new Professor(nome, email);
 
@@ -43,7 +43,7 @@ public class ProfessorTest {
         ProfessorDao professorDao = new ProfessorDao(conexao);
         CursoDao cursoDao = new CursoDao(conexao);
 
-        Professor professor = professorDao.consultarPorId(7);
+        Professor professor = professorDao.consultarPorId(4);
         Curso curso = cursoDao.consultarPorId(1);
         curso.setProfessor(professor);
 
@@ -57,7 +57,7 @@ public class ProfessorTest {
     public void alterarInformacoesProfessor() {
         ProfessorDao professorDao = new ProfessorDao(conexao);
 
-        Professor professor = professorDao.consultarPorId(7);
+        Professor professor = professorDao.consultarPorId(4);
 
         professor.setNome("David");
         professor.setEmail("David@ifpi.edu.br");
