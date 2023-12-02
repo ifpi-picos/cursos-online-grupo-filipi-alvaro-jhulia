@@ -1,15 +1,19 @@
 package br.edu.ifpi.entidades;
 
+import br.edu.ifpi.enums.StatusNota;
+
 public class Nota {
   private int id;
   private int nota;
   private int aluno;
   private int curso;
+  private StatusNota status;
 
-  public Nota(int nota, int aluno, int curso) {
+  public Nota(int nota, int aluno, int curso, StatusNota status) {
     this.nota = nota;
     this.aluno = aluno;
     this.curso = curso;
+    this.status = status;
   }
 
   public Nota(int id, int nota, int aluno, int curso) {
@@ -44,5 +48,13 @@ public class Nota {
 
   public void setCurso(int curso) {
     this.curso = curso;
+  }
+public String getStatus() {
+    return this.status == StatusNota.APROVADO ? "APROVADO" : "REPROVADO";
+  }
+  
+  public void setStatus(StatusNota status) {
+    this.status = status;
+    
   }
 }
