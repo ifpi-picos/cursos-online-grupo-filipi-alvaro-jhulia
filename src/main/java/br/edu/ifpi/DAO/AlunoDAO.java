@@ -218,9 +218,9 @@ public class AlunoDao implements Dao<Aluno> {
     
         try {
             String sql = "SELECT curso.nome " +
-                         "FROM curso " +
-                         "JOIN nota ON curso.id = nota.curso_id " +
-                         "WHERE nota.aluno_id = ? AND nota.status = 'Concluído'";
+                        "FROM curso " +
+                        "JOIN nota ON curso.id = nota.curso_id " +
+                        "WHERE nota.aluno_id = ? AND nota.status = 'APROVADO'";
     
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setLong(1, aluno.getId());
@@ -233,12 +233,11 @@ public class AlunoDao implements Dao<Aluno> {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Lide com a exceção de maneira apropriada no seu código
+            e.printStackTrace(); 
         }
     
         return cursosConcluidos;
     }
-
 
 
 }

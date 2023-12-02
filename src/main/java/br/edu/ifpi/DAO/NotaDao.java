@@ -12,6 +12,8 @@ import java.text.DecimalFormat;
 import br.edu.ifpi.entidades.Aluno;
 import br.edu.ifpi.entidades.Estatistica;
 import br.edu.ifpi.entidades.Nota;
+import br.edu.ifpi.enums.StatusAluno;
+import br.edu.ifpi.enums.StatusNota;
 
 public class NotaDao implements Dao<Nota> {
 
@@ -23,7 +25,7 @@ public class NotaDao implements Dao<Nota> {
 
     @Override
     public int cadastrar(Nota nota) {
-        String SQL_INSERT = "INSERT INTO nota (nota, curso_id, aluno_id) VALUES (?,?,?)";
+        String SQL_INSERT = "INSERT INTO nota (nota, curso_id, aluno_id, status) VALUES (?,?,?,?)";
 
         try {
             PreparedStatement preparedStatement = conexao.prepareStatement(SQL_INSERT);
@@ -31,6 +33,8 @@ public class NotaDao implements Dao<Nota> {
             preparedStatement.setInt(1, nota.getNota());
             preparedStatement.setInt(2, nota.getCurso());
             preparedStatement.setInt(3, nota.getAluno());
+            System.err.println("status da nota: " + nota.getStatus());
+            preparedStatement.setString(4, nota.getStatus());
 
             int row = preparedStatement.executeUpdate();
 
@@ -77,9 +81,13 @@ public class NotaDao implements Dao<Nota> {
 
         try {
             PreparedStatement preparedStatement = conexao.prepareStatement(SQL_UPDATE);
+            StatusNota status = nota.getNota() >= 7 ? StatusNota.APROVADO : StatusNota.REPROVADO;
 
             preparedStatement.setInt(1, nota.getNota());
             preparedStatement.setInt(2, nota.getId());
+            preparedStatement.setString(3, String.valueOf(status));
+            
+                            
 
             int row = preparedStatement.executeUpdate();
 
@@ -125,6 +133,7 @@ public class NotaDao implements Dao<Nota> {
             if (result.next()) {
                 int maiorNota = result.getInt("maior_nota");
                 int alunoId = result.getInt("aluno_id");
+                StatusNota status = result.getString("status").equals("APROVADO") ? StatusNota.APROVADO : StatusNota.REPROVADO;
                 
                 Estatistica estatistica = new Estatistica(maiorNota, alunoId);
                 System.out.println(estatistica);
