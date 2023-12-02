@@ -115,18 +115,24 @@ public class CursoTest {
         assertTrue(estatistica.getMaiorNota() > 0);
     }
 
+
+    @Test     // Teste para exibir quantidade de alunos matriculados
     public void exibirQuantidadeAlunos(){
         MatriculaDao matriculaDao = new MatriculaDao(conexao);
 
         System.out.println("O curso possui " + matriculaDao.consultarQuantidadeAlunos(1) + "matriculados.");
     }
 
+
+    @Test     // Teste para exibir a média geral de um curso
     public void exibirMediaGeral (){
         NotaDao notaDao = new NotaDao(conexao);
 
         notaDao.exibirMediaCurso(1);
     }
 
+
+    @Test     // Teste para exibir a porcentagem de alunos aprovados
     public void percentualAprovacao(){
         MatriculaDao matriculaDao = new MatriculaDao(conexao);
 

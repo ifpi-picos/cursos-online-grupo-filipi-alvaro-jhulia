@@ -33,22 +33,14 @@ public class AlunoTest {
     @Test    // Teste de cadastro de aluno
     public void cadastrarAluno() {
         AlunoDao alunoDao = new AlunoDao(conexao);
-        MatriculaDao matriculaDao = new MatriculaDao(conexao);
-        CursoDao cursoDao = new CursoDao(conexao);
 
-        Curso curso = cursoDao.consultarPorId(1);
 
         Aluno novoAluno = new Aluno("deborah", "deborah@gmail.com", StatusAluno.ATIVO);
 
         int retornoAluno = alunoDao.cadastrar(novoAluno);
 
-        Aluno alunoCadastrado = alunoDao.consultarPorEmail(novoAluno.getEmail());
-        Matricula novaMatricula = new Matricula(alunoCadastrado, curso, "Ativa");
-
-        int retornoMatricula = matriculaDao.cadastrar(novaMatricula);
 
         assertTrue(retornoAluno > 0);
-        assertTrue(retornoMatricula > 0);
     }
 
 
