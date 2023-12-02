@@ -3,6 +3,7 @@ package br.edu.ifpi;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.junit.Before;
@@ -34,12 +35,9 @@ public class AlunoTest {
     public void cadastrarAluno() {
         AlunoDao alunoDao = new AlunoDao(conexao);
 
-
         Aluno novoAluno = new Aluno("deborah", "deborah@gmail.com", StatusAluno.ATIVO);
 
         int retornoAluno = alunoDao.cadastrar(novoAluno);
-
-
         assertTrue(retornoAluno > 0);
     }
 
@@ -57,6 +55,22 @@ public class AlunoTest {
         assertTrue(aluno != null);
     }
 
+
+
+    @Test // Teste de consulta de todos os alunos
+    public void consultarTodos() throws SQLException {
+        AlunoDao alunoDao = new AlunoDao(conexao);
+
+        List<Aluno> alunos = alunoDao.consultarTodos();
+
+        for (Aluno aluno : alunos) {
+            System.out.println("Nome do aluno: " + aluno.getNome());
+            System.out.println("E-mail: " + aluno.getEmail());
+            System.out.println("Status: " + aluno.getStatus());
+        }
+
+        assertTrue(alunos.size() > 0);
+    }
 
     @Test     // Teste para realizar matrícula
     public void realizarMatricula() {
