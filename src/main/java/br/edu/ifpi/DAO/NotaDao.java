@@ -10,9 +10,8 @@ import java.util.List;
 import java.text.DecimalFormat;
 
 import br.edu.ifpi.entidades.Aluno;
-import br.edu.ifpi.entidades.Estatistica;
+import br.edu.ifpi.entidades.Curso;
 import br.edu.ifpi.entidades.Nota;
-import br.edu.ifpi.enums.StatusAluno;
 import br.edu.ifpi.enums.StatusNota;
 
 public class NotaDao implements Dao<Nota> {
@@ -54,9 +53,8 @@ public class NotaDao implements Dao<Nota> {
         List<Nota> notas = new ArrayList<>();
 
         try (
-            Statement statement = conexao.createStatement();
-            ResultSet result = statement.executeQuery(SQL_QUERY);
-        ) {
+                Statement statement = conexao.createStatement();
+                ResultSet result = statement.executeQuery(SQL_QUERY);) {
             while (result.next()) {
                 int id = result.getInt("id");
                 int nota = result.getInt("nota");
@@ -77,17 +75,15 @@ public class NotaDao implements Dao<Nota> {
 
     @Override
     public int alterar(Nota nota) {
-        String SQL_UPDATE = "UPDATE nota SET nota = ? WHERE id = ?";
+        String SQL_UPDATE = "UPDATE nota SET nota = ? SET status = ? WHERE id = ?";
 
         try {
             PreparedStatement preparedStatement = conexao.prepareStatement(SQL_UPDATE);
             StatusNota status = nota.getNota() >= 7 ? StatusNota.APROVADO : StatusNota.REPROVADO;
 
             preparedStatement.setInt(1, nota.getNota());
-            preparedStatement.setInt(2, nota.getId());
-            preparedStatement.setString(3, String.valueOf(status));
-            
-                            
+            preparedStatement.setString(2, String.valueOf(status));
+            preparedStatement.setInt(3, nota.getId());
 
             int row = preparedStatement.executeUpdate();
 
@@ -120,65 +116,76 @@ public class NotaDao implements Dao<Nota> {
         return 0;
     }
 
-    public Estatistica estatisticaAlunos() {
-        String SQL_QUERY = "SELECT MAX(nota) AS maior_nota, aluno_id FROM sistema_academico.nota GROUP BY nota, aluno_id ORDER BY MAX(nota) DESC";
+    public void estatisticaAlunos(Curso curso) throws SQLException {
+        String query = "select aluno.nome AS nome_aluno, nota.nota AS nota_aluno from sistema_academico.nota join sistema_academico.aluno on nota.aluno_id = aluno.id join sistema_academico.curso on nota.curso_id = curso.id where curso.id = ? order by nota.nota desc;";
 
-        try {
-            PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
+        PreparedStatement stm = conexao.prepareStatement(query);
+        stm.setInt(1, curso.getId());
+        ResultSet result = stm.executeQuery();
 
-            ResultSet result = statement.executeQuery();
+        if (result.next()) {
+            String nomeAluno = result.getString("nome_aluno");
+            int notaAluno = result.getInt("nota_aluno");
 
-            System.out.println(result);
-
-            if (result.next()) {
-                int maiorNota = result.getInt("maior_nota");
-                int alunoId = result.getInt("aluno_id");
-                StatusNota status = result.getString("status").equals("APROVADO") ? StatusNota.APROVADO : StatusNota.REPROVADO;
-                
-                Estatistica estatistica = new Estatistica(maiorNota, alunoId);
-                System.out.println(estatistica);
-
-                return estatistica;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Aluno: " + nomeAluno + " | Nota: " + notaAluno);
         }
-        return null;
     }
 
-    public Estatistica getEstatisticaAluno(Aluno aluno) {
-        String SQL_QUERY = "SELECT MAX(nota) AS maior_nota, aluno_id FROM sistema_academico.nota WHERE aluno_id = ? GROUP BY nota, aluno_id ORDER BY MAX(nota) DESC";
+    // public Estatistica getEstatisticaAluno(Aluno aluno) {
+    // String SQL_QUERY = "SELECT MAX(nota) AS maior_nota, aluno_id FROM
+    // sistema_academico.nota WHERE aluno_id = ? GROUP BY nota, aluno_id ORDER BY
+    // MAX(nota) DESC";
 
+    // try {
+    // PreparedStatement statement = conexao.prepareStatement(SQL_QUERY);
+    // statement.setInt(1, aluno.getId());
+
+    // ResultSet result = statement.executeQuery();
+
+    // if (result.next()) {
+    // int maiorNota = result.getInt("maior_nota");
+    // int alunoId = result.getInt("aluno_id");
+
+    // Estatistica estatistica = new Estatistica(maiorNota, alunoId);
+    // System.out.println(estatistica);
+
+    // return estatistica;
+    // }
+    // } catch (SQLException e) {
+    // e.printStackTrace();
+    // }
+    // return null;
+    // }
+
+    public void getEstatisticaAluno(Aluno aluno) {
+        String sql = "SELECT curso.nome as nome_curso, nota.nota as nota_aluno from sistema_academico.nota join sistema_academico.aluno on nota.aluno_id = aluno.id join sistema_academico.curso on nota.curso_id = curso.id where aluno.id = ? order by nota.nota desc";
+        
         try {
-            PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
+            PreparedStatement statement = conexao.prepareStatement(sql);
             statement.setInt(1, aluno.getId());
 
             ResultSet result = statement.executeQuery();
 
             if (result.next()) {
-                int maiorNota = result.getInt("maior_nota");
-                int alunoId = result.getInt("aluno_id");
-                
-                Estatistica estatistica = new Estatistica(maiorNota, alunoId);
-                System.out.println(estatistica);
+                String nomeCurso = result.getString("nome_curso");
+                int notaAluno = result.getInt("nota_aluno");
 
-                return estatistica;
+                System.out.println("Curso: " + nomeCurso + " | Nota: " + notaAluno);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
     public void exibirMediaCurso(int cursoId) {
         String SQL_QUERY = "SELECT AVG(nota) AS media FROM nota WHERE curso_id = ?";
-    
+
         try {
             PreparedStatement statement = conexao.prepareStatement(SQL_QUERY);
             statement.setInt(1, cursoId);
-    
+
             ResultSet result = statement.executeQuery();
-    
+
             if (result.next()) {
                 double media = result.getDouble("media");
                 DecimalFormat df = new DecimalFormat("#.##");

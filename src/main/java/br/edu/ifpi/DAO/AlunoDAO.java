@@ -8,9 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import br.edu.ifpi.entidades.Aluno;
-import br.edu.ifpi.entidades.Curso;
 import br.edu.ifpi.enums.StatusAluno;
-import br.edu.ifpi.enums.StatusCurso;
 
 public class AlunoDao implements Dao<Aluno> {
     

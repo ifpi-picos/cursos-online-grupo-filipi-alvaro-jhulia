@@ -1,7 +1,7 @@
 package br.edu.ifpi.enums;
 
 public enum StatusNota {
-APROVADO ("Aprovado"), REPROVADO("Reprovado"), CURSANDO("Cursando");
+APROVADO ("Aprovado"), REPROVADO("Reprovado");
 
     private String value;
 
