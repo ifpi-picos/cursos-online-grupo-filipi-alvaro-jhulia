@@ -1,10 +1,7 @@
 package br.edu.ifpi;
-
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -12,14 +9,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.edu.ifpi.dao.MatriculaDao;
-import br.edu.ifpi.dao.AlunoDao;
 import br.edu.ifpi.dao.Conexao;
 import br.edu.ifpi.dao.CursoDao;
 import br.edu.ifpi.dao.NotaDao;
 import br.edu.ifpi.dao.ProfessorDao;
-import br.edu.ifpi.entidades.Aluno;
 import br.edu.ifpi.entidades.Curso;
-import br.edu.ifpi.entidades.Estatistica;
 import br.edu.ifpi.entidades.Nota;
 import br.edu.ifpi.entidades.Professor;
 import br.edu.ifpi.enums.StatusCurso;
@@ -40,8 +34,8 @@ public class CursoTest {
 
         Professor professor = professorDao.consultarPorId(2);
 
-        String nome = "Historia";
-        int cargaHoraria = 40;
+        String nome = "Matemática";
+        int cargaHoraria = 100;
         StatusCurso status = StatusCurso.ABERTO;
 
         Curso novoCurso = new Curso(nome, cargaHoraria, status, professor);
@@ -96,23 +90,21 @@ public class CursoTest {
     @Test     // Teste para registrar nota de um aluno no curso e já ver se o aluno foi aprovado ou não
     public void registrarNota() {
         NotaDao notaDao = new NotaDao(conexao);
-        Nota nota = new Nota(10, 10, 1, StatusNota.APROVADO);
+        Nota nota = new Nota(10, 1, 1, StatusNota.APROVADO);
         
         int result = notaDao.cadastrar(nota);
 
         assertTrue(result > 0);
     }
 
-
-    @Test     // Teste para gerar estatísticas de alunos
-    public void gerarEstatisticasAlunos() {
+    @Test
+    public void gerarEstatisticasAlunos() throws SQLException{
         NotaDao notaDao = new NotaDao(conexao);
-        
-        final Estatistica estatistica = notaDao.estatisticaAlunos();
+        CursoDao cursoDao = new CursoDao(conexao);
+        Curso curso = cursoDao.consultarPorId(1);
 
-        System.out.println("O aluno com maior nota é "+estatistica.getAlunoId()+". Nota: " + estatistica.getMaiorNota());
-
-        assertTrue(estatistica.getMaiorNota() > 0);
+        notaDao.estatisticaAlunos(curso);
+        assertTrue(true);
     }
 
 

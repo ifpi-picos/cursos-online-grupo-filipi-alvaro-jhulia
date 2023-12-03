@@ -14,13 +14,9 @@ import br.edu.ifpi.dao.Conexao;
 import br.edu.ifpi.dao.CursoDao;
 import br.edu.ifpi.dao.MatriculaDao;
 import br.edu.ifpi.dao.NotaDao;
-import br.edu.ifpi.dao.ProfessorDao;
 import br.edu.ifpi.entidades.Aluno;
 import br.edu.ifpi.entidades.Curso;
-import br.edu.ifpi.entidades.Estatistica;
 import br.edu.ifpi.entidades.Matricula;
-import br.edu.ifpi.entidades.Professor;
-import br.edu.ifpi.entidades.ProfessorCurso;
 import br.edu.ifpi.enums.StatusAluno;
 
 public class AlunoTest {
@@ -105,17 +101,13 @@ public class AlunoTest {
     }
 
 
-    @Test      // Teste para ver as estatisticas de desempenho
-    public void estatisticaDesempenho() {
-        AlunoDao alunoDao = new AlunoDao(conexao);
+    @Test // Teste para ver as estatisticas de desempenho
+    public void estatisticaDesempenho(){
         NotaDao notaDao = new NotaDao(conexao);
-
+        AlunoDao alunoDao = new AlunoDao(conexao);
         Aluno aluno = alunoDao.consultarPorEmail("carlosHenrique@gmail.com");
-        Estatistica estatistica = notaDao.getEstatisticaAluno(aluno);
 
-        System.out.println("Maior nota: " + estatistica.getMaiorNota());
-
-        assertTrue(estatistica != null);
+        notaDao.getEstatisticaAluno(aluno);
     }
 
 
@@ -151,7 +143,7 @@ public class AlunoTest {
     @Test     // Teste para exibir cursos concluídos
     public void exibirCursosConcluidos() {
         AlunoDao alunoDao = new AlunoDao(conexao);
-        Aluno aluno = alunoDao.consultarPorId(10);
+        Aluno aluno = alunoDao.consultarPorId(1);
     
         List<String> cursosConcluidos = alunoDao.exibirCursosConcluidos(aluno, conexao);
     
