@@ -74,7 +74,7 @@ public class AlunoTest {
         MatriculaDAO matriculaDAO = new MatriculaDAO(conexao);
         CursoDAO cursoDAO = new CursoDAO(conexao);
 
-        Curso curso = cursoDAO.consultarPorId(1);
+        Curso curso = cursoDAO.consultarPorId(2);
 
         Aluno aluno = alunoDAO.consultarPorId(11);
         Matricula novaMatricula = new Matricula(aluno, curso, "Ativa");

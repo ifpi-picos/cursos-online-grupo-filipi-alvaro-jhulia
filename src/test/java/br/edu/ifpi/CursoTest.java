@@ -11,7 +11,7 @@ import org.junit.Test;
 import br.edu.ifpi.DAO.MatriculaDAO;
 import br.edu.ifpi.DAO.Conexao;
 import br.edu.ifpi.DAO.CursoDAO;
-// import br.edu.ifpi.DAO.MatriculaDAO;
+//import br.edu.ifpi.DAO.MatriculaDAO;
 import br.edu.ifpi.DAO.NotaDAO;
 import br.edu.ifpi.DAO.ProfessorDAO;
 import br.edu.ifpi.entidades.Curso;
@@ -91,7 +91,7 @@ public class CursoTest {
     @Test     // Teste para registrar nota de um aluno no curso e já ver se o aluno foi aprovado ou não
     public void registrarNota() {
         NotaDAO notaDAO = new NotaDAO(conexao);
-        Nota nota = new Nota(4, 1, 1, StatusNota.REPROVADO);
+        Nota nota = new Nota(8, 1, 1, StatusNota.APROVADO);
         
         int result = notaDAO.cadastrar(nota);
 
@@ -113,7 +113,7 @@ public class CursoTest {
     public void exibirQuantidadeAlunos(){
         MatriculaDAO matriculaDao = new MatriculaDAO(conexao);
 
-        System.out.println("O curso possui " + matriculaDao.consultarQuantidadeAlunos(1) + "matriculados.");
+        System.out.println("O curso possui " + matriculaDao.consultarQuantidadeAlunos(1) + " aluno(s) matriculado(s).");
     }
 
 
@@ -121,7 +121,7 @@ public class CursoTest {
     public void exibirMediaGeral (){
         NotaDAO notaDao = new NotaDAO(conexao);
 
-        notaDao.exibirMediaCurso(1);
+        notaDao.exibirMediaCurso(1); // Digite aqui o id do curso
     }
 
 
@@ -129,7 +129,7 @@ public class CursoTest {
     public void percentualAprovacao(){
         MatriculaDAO matriculaDao = new MatriculaDAO(conexao);
 
-        System.out.println(matriculaDao.calcularPorcentagemAprovacao(1));
+        System.out.println(matriculaDao.calcularPorcentagemAprovacao(1));// Digite aqui o id do curso
     }
 
 
