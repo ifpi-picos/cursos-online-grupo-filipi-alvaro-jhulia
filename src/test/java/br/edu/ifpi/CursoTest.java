@@ -7,13 +7,11 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import br.edu.ifpi.DAO.MatriculaDAO;
-import br.edu.ifpi.DAO.Conexao;
-import br.edu.ifpi.DAO.CursoDAO;
-//import br.edu.ifpi.DAO.MatriculaDAO;
-import br.edu.ifpi.DAO.NotaDAO;
-import br.edu.ifpi.DAO.ProfessorDAO;
+import br.edu.ifpi.dao.Conexao;
+import br.edu.ifpi.dao.CursoDao;
+import br.edu.ifpi.dao.MatriculaDao;
+import br.edu.ifpi.dao.NotaDao;
+import br.edu.ifpi.dao.ProfessorDao;
 import br.edu.ifpi.entidades.Curso;
 import br.edu.ifpi.entidades.Nota;
 import br.edu.ifpi.entidades.Professor;
@@ -30,10 +28,10 @@ public class CursoTest {
 
     @Test      // Teste de cadastro de curso
     public void cadastrarCurso() {
-        CursoDAO cursoDAO = new CursoDAO(conexao);
-        ProfessorDAO professorDAO = new ProfessorDAO(conexao);
+        CursoDao cursoDao = new CursoDao(conexao);
+        ProfessorDao professorDao = new ProfessorDao(conexao);
 
-        Professor professor = professorDAO.consultarPorId(2);
+        Professor professor = professorDao.consultarPorId(2);
 
         String nome = "Matemática";
         int cargaHoraria = 100;
@@ -41,7 +39,7 @@ public class CursoTest {
 
         Curso novoCurso = new Curso(nome, cargaHoraria, status, professor);
 
-        int retorno = cursoDAO.cadastrar(novoCurso);
+        int retorno = cursoDao.cadastrar(novoCurso);
         System.out.println("Curso cadastrado com sucesso");
 
         assertTrue(retorno > 0);
@@ -51,16 +49,16 @@ public class CursoTest {
     @Test     // Teste de alteração de informações de curso
     public void alterarInformacoesCurso() {
 
-        CursoDAO cursoDAO = new CursoDAO(conexao);
+        CursoDao cursoDao = new CursoDao(conexao);
 
-        Curso curso = cursoDAO.consultarPorId(1);
+        Curso curso = cursoDao.consultarPorId(1);
 
         curso.setNome("Letras");
         curso.setCargaHoraria(100);
         curso.setStatus(StatusCurso.ABERTO);
 
         System.out.println("Curso alterado com sucesso" + curso.getProfessor());
-        int result = cursoDAO.alterar(curso);
+        int result = cursoDao.alterar(curso);
 
         assertTrue(result > 0);
     }
@@ -68,9 +66,9 @@ public class CursoTest {
 
     @Test     // Teste para exibir cursos disponíveis
     public void exibirCursosDisponiveis() {
-        CursoDAO cursoDAO = new CursoDAO(conexao);
+        CursoDao cursoDao = new CursoDao(conexao);
 
-        final List<Curso> cursos = cursoDAO.consultarTodos();
+        final List<Curso> cursos = cursoDao.consultarTodos();
         int result = 0;
 
         for (int i = 0; i < cursos.size(); i++) {
@@ -90,28 +88,28 @@ public class CursoTest {
 
     @Test     // Teste para registrar nota de um aluno no curso e já ver se o aluno foi aprovado ou não
     public void registrarNota() {
-        NotaDAO notaDAO = new NotaDAO(conexao);
+        NotaDao notaDao = new NotaDao(conexao);
         Nota nota = new Nota(8, 1, 2, StatusNota.APROVADO);
         
-        int result = notaDAO.cadastrar(nota);
+        int result = notaDao.cadastrar(nota);
 
         assertTrue(result > 0);
     }
 
     @Test
     public void gerarEstatisticasAlunos() throws SQLException{
-        NotaDAO notaDAO = new NotaDAO(conexao);
-        CursoDAO cursoDAO = new CursoDAO(conexao);
-        Curso curso = cursoDAO.consultarPorId(1);
+        NotaDao notaDao = new NotaDao(conexao);
+        CursoDao cursoDao = new CursoDao(conexao);
+        Curso curso = cursoDao.consultarPorId(1);
 
-        notaDAO.estatisticaAlunos(curso);
+        notaDao.estatisticaAlunos(curso);
         assertTrue(true);
     }
 
 
     @Test     // Teste para exibir quantidade de alunos matriculados
     public void exibirQuantidadeAlunos(){
-        MatriculaDAO matriculaDao = new MatriculaDAO(conexao);
+        MatriculaDao matriculaDao = new MatriculaDao(conexao);
 
         System.out.println("O curso possui " + matriculaDao.consultarQuantidadeAlunos(1) + " aluno(s) matriculado(s).");
     }
@@ -119,7 +117,7 @@ public class CursoTest {
 
     @Test     // Teste para exibir a média geral de um curso
     public void exibirMediaGeral (){
-        NotaDAO notaDao = new NotaDAO(conexao);
+        NotaDao notaDao = new NotaDao(conexao);
 
         notaDao.exibirMediaCurso(1); // Digite aqui o id do curso
     }
@@ -127,7 +125,7 @@ public class CursoTest {
 
     @Test     // Teste para exibir a porcentagem de alunos aprovados
     public void percentualAprovacao(){
-        MatriculaDAO matriculaDao = new MatriculaDAO(conexao);
+        MatriculaDao matriculaDao = new MatriculaDao(conexao);
 
         System.out.println(matriculaDao.calcularPorcentagemAprovacao(1));// Digite aqui o id do curso
     }
@@ -137,9 +135,9 @@ public class CursoTest {
 
     @Test    // Teste para exibir a porcetagem de cursos (concluidos e não concluidos)
     public void testCalcularPorcentagemCursos() {
-    CursoDAO CursoDAO = new CursoDAO(conexao);
+    CursoDao CursoDao = new CursoDao(conexao);
 
-    CursoDAO.calcularPorcentagemCursos(conexao);
+    CursoDao.calcularPorcentagemCursos(conexao);
 }
 
 }

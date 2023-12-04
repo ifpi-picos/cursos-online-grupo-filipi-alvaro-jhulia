@@ -7,10 +7,9 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import br.edu.ifpi.DAO.Conexao;
-import br.edu.ifpi.DAO.CursoDAO;
-import br.edu.ifpi.DAO.ProfessorDAO;
+import br.edu.ifpi.dao.Conexao;
+import br.edu.ifpi.dao.CursoDao;
+import br.edu.ifpi.dao.ProfessorDao;
 import br.edu.ifpi.entidades.Curso;
 import br.edu.ifpi.entidades.Professor;
 import br.edu.ifpi.entidades.ProfessorCurso;
@@ -25,7 +24,7 @@ public class ProfessorTest {
 
     @Test     // Teste de cadastro de professor
     public void cadastrarProfessor() {
-        ProfessorDAO professorDAO = new ProfessorDAO(conexao);
+        ProfessorDao professorDAO = new ProfessorDao(conexao);
 
         String nome = "Rafael";
         String email = "Rafael@ifpi.edu.br";
@@ -40,8 +39,8 @@ public class ProfessorTest {
 
     @Test     // Teste de associação de professor a curso
     public void associarProfessoresCursos() {
-        ProfessorDAO professorDAO = new ProfessorDAO(conexao);
-        CursoDAO cursoDAO = new CursoDAO(conexao);
+        ProfessorDao professorDAO = new ProfessorDao(conexao);
+        CursoDao cursoDAO = new CursoDao(conexao);
 
         Professor professor = professorDAO.consultarPorId(4);
         Curso curso = cursoDAO.consultarPorId(1);
@@ -55,7 +54,7 @@ public class ProfessorTest {
 
     @Test     // Teste de alteração de informações de professor
     public void alterarInformacoesProfessor() {
-        ProfessorDAO professorDAO = new ProfessorDAO(conexao);
+        ProfessorDao professorDAO = new ProfessorDao(conexao);
 
         Professor professor = professorDAO.consultarPorId(4);
 
@@ -69,7 +68,7 @@ public class ProfessorTest {
 
     @Test     // Teste para visualizar cursos de um professor
     public void professoresCursos() {
-        ProfessorDAO professorDAO = new ProfessorDAO(conexao);
+        ProfessorDao professorDAO = new ProfessorDao(conexao);
         
         List<ProfessorCurso> cursos = professorDAO.cursos();
 

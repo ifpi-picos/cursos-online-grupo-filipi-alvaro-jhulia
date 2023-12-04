@@ -1,24 +1,23 @@
-package br.edu.ifpi.DAO;
+package br.edu.ifpi.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.text.DecimalFormat;
-
 import br.edu.ifpi.entidades.Aluno;
 import br.edu.ifpi.entidades.Curso;
 import br.edu.ifpi.entidades.Nota;
 import br.edu.ifpi.enums.StatusNota;
 
-public class NotaDAO implements DAO<Nota> {
+public class NotaDao implements Dao<Nota> {
 
     final private Connection conexao;
 
-    public NotaDAO(Connection conexao) {
+    public NotaDao(Connection conexao) {
         this.conexao = conexao;
     }
 
@@ -52,8 +51,7 @@ public class NotaDAO implements DAO<Nota> {
 
         List<Nota> notas = new ArrayList<>();
 
-        try (
-                Statement statement = conexao.createStatement();
+        try (Statement statement = conexao.createStatement();
                 ResultSet result = statement.executeQuery(SQL_QUERY);) {
             while (result.next()) {
                 int id = result.getInt("id");
@@ -117,7 +115,8 @@ public class NotaDAO implements DAO<Nota> {
     }
 
     public void estatisticaAlunos(Curso curso) throws SQLException {
-        String query = "select aluno.nome AS nome_aluno, nota.nota AS nota_aluno from sistema_academico.nota join sistema_academico.aluno on nota.aluno_id = aluno.id join sistema_academico.curso on nota.curso_id = curso.id where curso.id = ? order by nota.nota desc;";
+        String query =
+                "select aluno.nome AS nome_aluno, nota.nota AS nota_aluno from sistema_academico.nota join sistema_academico.aluno on nota.aluno_id = aluno.id join sistema_academico.curso on nota.curso_id = curso.id where curso.id = ? order by nota.nota desc;";
 
         PreparedStatement stm = conexao.prepareStatement(query);
         stm.setInt(1, curso.getId());
@@ -158,8 +157,9 @@ public class NotaDAO implements DAO<Nota> {
     // }
 
     public void getEstatisticaAluno(Aluno aluno) {
-        String sql = "SELECT curso.nome as nome_curso, nota.nota as nota_aluno from sistema_academico.nota join sistema_academico.aluno on nota.aluno_id = aluno.id join sistema_academico.curso on nota.curso_id = curso.id where aluno.id = ? order by nota.nota desc";
-        
+        String sql =
+                "SELECT curso.nome as nome_curso, nota.nota as nota_aluno from sistema_academico.nota join sistema_academico.aluno on nota.aluno_id = aluno.id join sistema_academico.curso on nota.curso_id = curso.id where aluno.id = ? order by nota.nota desc";
+
         try {
             PreparedStatement statement = conexao.prepareStatement(sql);
             statement.setInt(1, aluno.getId());
