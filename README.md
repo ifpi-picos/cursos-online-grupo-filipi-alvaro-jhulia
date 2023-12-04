@@ -1,3 +1,3 @@
 - Copie e cole no bando de dados MySql o código SQL que está na pasta "SQL" do código;
 - mude a senha da classe conexão para a senha do seu banco de dados;
-- os testes funcionam com dados pré definidos que estão no código, mas podem ser mutáveis.
+- os testes funcionam com dados pré definidos que estão no código, mas se der erro, apenas abra o MySQL(shell ou WorkBench) e veja se aquela coluna existe nas tabelas, se não existir...cadastre tudo do zero, é mais divertido!
