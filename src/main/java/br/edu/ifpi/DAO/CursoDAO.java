@@ -151,7 +151,7 @@ public class CursoDAO implements DAO<Curso> {
 
   public void calcularPorcentagemCursos(Connection connection) {
     String SQL_QUERY = "SELECT COUNT(*) AS totalCursos, " +
-                      "SUM(CASE WHEN status = 'Concluído' THEN 1 ELSE 0 END) AS cursosConcluidos " +
+                      "SUM(CASE WHEN status = 'APROVADO' THEN 1 ELSE 0 END) AS cursosConcluidos " +
                       "FROM nota";
 
     try (Statement statement = connection.createStatement();

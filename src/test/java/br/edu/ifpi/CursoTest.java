@@ -91,7 +91,7 @@ public class CursoTest {
     @Test     // Teste para registrar nota de um aluno no curso e já ver se o aluno foi aprovado ou não
     public void registrarNota() {
         NotaDAO notaDAO = new NotaDAO(conexao);
-        Nota nota = new Nota(10, 1, 1, StatusNota.APROVADO);
+        Nota nota = new Nota(4, 1, 1, StatusNota.REPROVADO);
         
         int result = notaDAO.cadastrar(nota);
 
@@ -129,7 +129,7 @@ public class CursoTest {
     public void percentualAprovacao(){
         MatriculaDAO matriculaDao = new MatriculaDAO(conexao);
 
-        System.out.println(matriculaDao.calcularPorcentagemAprovacao(2));
+        System.out.println(matriculaDao.calcularPorcentagemAprovacao(1));
     }
 
 
