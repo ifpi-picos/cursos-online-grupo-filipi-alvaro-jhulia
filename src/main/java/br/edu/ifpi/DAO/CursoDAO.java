@@ -1,4 +1,4 @@
-package br.edu.ifpi.dao;
+package br.edu.ifpi.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,11 +11,11 @@ import br.edu.ifpi.entidades.Curso;
 import br.edu.ifpi.entidades.Professor;
 import br.edu.ifpi.enums.StatusCurso;
 
-public class CursoDao implements Dao<Curso> {
+public class CursoDAO implements DAO<Curso> {
 
   final private Connection conexao;
 
-  public CursoDao(Connection conexao) {
+  public CursoDAO(Connection conexao) {
     this.conexao = conexao;
   }
 
@@ -57,7 +57,7 @@ public class CursoDao implements Dao<Curso> {
         int cargaHoraria = result.getInt("carga_horaria");
         StatusCurso status = result.getString("status").equals("Aberto") ? StatusCurso.ABERTO : StatusCurso.FECHADO;
         int professorId = result.getInt("professor_id");
-        Professor professor = new ProfessorDao(conexao).consultarPorId(professorId);
+        Professor professor = new ProfessorDAO(conexao).consultarPorId(professorId);
         Curso curso = new Curso(id, nome, cargaHoraria, status, professor);
         cursos.add(curso);
       }
@@ -134,7 +134,7 @@ public class CursoDao implements Dao<Curso> {
         StatusCurso status = result.getString("status").equals("Aberto") ? StatusCurso.ABERTO : StatusCurso.FECHADO;
         int professorId = result.getInt("professor_id");
 
-        Professor professor = new ProfessorDao(conexao).consultarPorId(professorId);
+        Professor professor = new ProfessorDAO(conexao).consultarPorId(professorId);
 
         Curso curso = new Curso(id, nome, cargaHoraria, status, professor);
 

@@ -1,4 +1,4 @@
-package br.edu.ifpi.dao;
+package br.edu.ifpi.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,11 +10,11 @@ import java.util.List;
 import br.edu.ifpi.entidades.Aluno;
 import br.edu.ifpi.enums.StatusAluno;
 
-public class AlunoDao implements Dao<Aluno> {
+public class AlunoDAO implements DAO<Aluno> {
     
     final private Connection conexao;
     
-    public AlunoDao(Connection conexao) {
+    public AlunoDAO(Connection conexao) {
         this.conexao = conexao;
     }
     

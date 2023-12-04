@@ -1,4 +1,4 @@
-package br.edu.ifpi.dao;
+package br.edu.ifpi.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,11 +12,11 @@ import br.edu.ifpi.entidades.Aluno;
 import br.edu.ifpi.entidades.Curso;
 import br.edu.ifpi.entidades.Matricula;
 
-public class MatriculaDao implements Dao<Matricula> {
+public class MatriculaDAO implements DAO<Matricula> {
 
     final private Connection conexao;
 
-    public MatriculaDao(Connection conexao) {
+    public MatriculaDAO(Connection conexao) {
         this.conexao = conexao;
     }
 
@@ -46,8 +46,8 @@ public class MatriculaDao implements Dao<Matricula> {
     public List<Matricula> consultarTodos() throws SQLException {
         String SQL_QUERY = "SELECT * FROM matricula";
 
-        CursoDao cursoDao = new CursoDao(conexao);
-        AlunoDao alunoDao = new AlunoDao(conexao);
+        CursoDAO cursoDAO = new CursoDAO(conexao);
+        AlunoDAO alunoDAO = new AlunoDAO(conexao);
 
         List<Matricula> matriculas = new ArrayList<>();
 
@@ -61,8 +61,8 @@ public class MatriculaDao implements Dao<Matricula> {
                 int aluno = result.getInt("aluno");
                 String status = result.getString("status");
 
-                Curso cursoItem = cursoDao.consultarPorId(curso);
-                Aluno alunoItem = alunoDao.consultarPorId(aluno);
+                Curso cursoItem = cursoDAO.consultarPorId(curso);
+                Aluno alunoItem = alunoDAO.consultarPorId(aluno);
 
                 Matricula item = new Matricula(id, alunoItem, cursoItem, status);
                 matriculas.add(item);
@@ -122,8 +122,8 @@ public class MatriculaDao implements Dao<Matricula> {
     public Matricula consultarPorAluno(Aluno aluno) {
         String SQL_QUERY = "SELECT * FROM matricula WHERE aluno_id = ?";
 
-        CursoDao cursoDao = new CursoDao(conexao);
-        AlunoDao alunoDao = new AlunoDao(conexao);
+        CursoDAO cursoDAO = new CursoDAO(conexao);
+        AlunoDAO alunoDAO = new AlunoDAO(conexao);
 
         try {
             PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
@@ -140,8 +140,8 @@ public class MatriculaDao implements Dao<Matricula> {
                 int alunoId = result.getInt("aluno_id");
                 String status = result.getString("status");
                 
-                Curso cursoItem = cursoDao.consultarPorId(cursoId);
-                Aluno alunoItem = alunoDao.consultarPorId(alunoId);
+                Curso cursoItem = cursoDAO.consultarPorId(cursoId);
+                Aluno alunoItem = alunoDAO.consultarPorId(alunoId);
 
                 Matricula matricula = new Matricula(id, alunoItem, cursoItem, status);
 
@@ -176,8 +176,8 @@ public class MatriculaDao implements Dao<Matricula> {
     public Matricula consultarPorId(int p_id) {
         String SQL_QUERY = "SELECT * FROM matricula WHERE id = ?";
 
-        CursoDao cursoDao = new CursoDao(conexao);
-        AlunoDao alunoDao = new AlunoDao(conexao);
+        CursoDAO cursoDAO = new CursoDAO(conexao);
+        AlunoDAO alunoDAO = new AlunoDAO(conexao);
 
         try {
             PreparedStatement statement = conexao.prepareStatement(SQL_QUERY); 
@@ -197,8 +197,8 @@ public class MatriculaDao implements Dao<Matricula> {
                 
                 System.out.printf("ID: %d%n\n", id);
 
-                Curso cursoItem = cursoDao.consultarPorId(curso);
-                Aluno alunoItem = alunoDao.consultarPorId(aluno);
+                Curso cursoItem = cursoDAO.consultarPorId(curso);
+                Aluno alunoItem = alunoDAO.consultarPorId(aluno);
 
                 Matricula matricula = new Matricula(id, alunoItem, cursoItem, status);
 
@@ -212,9 +212,9 @@ public class MatriculaDao implements Dao<Matricula> {
 
     public int contarAlunosComNotaMaiorQueSete(int cursoId) {
         String SQL_QUERY = "SELECT COUNT(DISTINCT m.aluno_id) AS quantidade " +
-                           "FROM matricula m " +
-                           "JOIN nota n ON m.aluno_id = n.aluno_id AND m.curso_id = n.curso_id " +
-                           "WHERE m.curso_id = ? AND m.status = 'Ativa' AND n.nota > 7";
+                        "FROM matricula m " +
+                        "JOIN nota n ON m.aluno_id = n.aluno_id AND m.curso_id = n.curso_id " +
+                        "WHERE m.curso_id = ? AND m.status = 'Ativa' AND n.nota > 7";
 
         try {
             PreparedStatement preparedStatement = conexao.prepareStatement(SQL_QUERY);

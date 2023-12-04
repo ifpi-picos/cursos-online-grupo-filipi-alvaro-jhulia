@@ -8,9 +8,9 @@ import java.sql.Connection;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.edu.ifpi.dao.AlunoDao;
-import br.edu.ifpi.dao.Conexao;
-import br.edu.ifpi.dao.ProfessorDao;
+import br.edu.ifpi.DAO.AlunoDAO;
+import br.edu.ifpi.DAO.Conexao;
+import br.edu.ifpi.DAO.ProfessorDAO;
 import br.edu.ifpi.entidades.Aluno;
 import br.edu.ifpi.entidades.Professor;
 
@@ -24,34 +24,35 @@ public class AutenticacaoTest {
 
     @Test
     public void falhaAutenticaoAluno() {
-        AlunoDao alunoDao = new AlunoDao(conexao);
+        AlunoDAO alunoDAO = new AlunoDAO(conexao);
 
         String emailTentativa = "usuario@naoexiste.com";
 
-        Aluno aluno = alunoDao.consultarPorEmail(emailTentativa);
+        Aluno aluno = alunoDAO.consultarPorEmail(emailTentativa);
 
         assertNull(aluno);
     }
 
     @Test
     public void autenticarAluno() {
-        AlunoDao alunoDao = new AlunoDao(conexao);
+        AlunoDAO alunoDAO = new AlunoDAO(conexao);
 
         String emailTentativa = "jhulia@gmail.com";
 
-        Aluno aluno = alunoDao.consultarPorEmail(emailTentativa);
+        Aluno aluno = alunoDAO.consultarPorEmail(emailTentativa);
 
         assertTrue(aluno != null);
         assertTrue(aluno.getEmail().equals(emailTentativa));
     }
 
+
     @Test
     public void autenticarProfessor() {
-        ProfessorDao professorDao = new ProfessorDao(conexao);
+        ProfessorDAO professorDAO = new ProfessorDAO(conexao);
 
-        String emailTentativa = "jesiel@ifpi.edu.br";
+        String emailTentativa = "Rafael@ifpi.edu.br";
 
-        Professor professor = professorDao.consultarPorEmail(emailTentativa);
+        Professor professor = professorDAO.consultarPorEmail(emailTentativa);
 
         assertTrue(professor != null);
         assertTrue(professor.getEmail().equals(emailTentativa));

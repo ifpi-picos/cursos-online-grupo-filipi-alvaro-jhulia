@@ -1,9 +1,9 @@
-package br.edu.ifpi.dao;
+package br.edu.ifpi.DAO;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface Dao<T> {
+public interface DAO<T> {
 
 
   public int cadastrar(T entidade);

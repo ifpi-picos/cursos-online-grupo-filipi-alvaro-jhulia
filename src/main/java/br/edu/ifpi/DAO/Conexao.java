@@ -1,5 +1,5 @@
 
-package br.edu.ifpi.dao;
+package br.edu.ifpi.DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

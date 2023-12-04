@@ -1,4 +1,4 @@
-package br.edu.ifpi.dao;
+package br.edu.ifpi.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,11 +11,11 @@ import java.util.List;
 import br.edu.ifpi.entidades.Professor;
 import br.edu.ifpi.entidades.ProfessorCurso;
 
-public class ProfessorDao implements Dao<Professor> {
+public class ProfessorDAO implements DAO<Professor> {
 
   private Connection conexao;
 
-  public ProfessorDao(Connection conexao) {
+  public ProfessorDAO(Connection conexao) {
     this.conexao = conexao;
   }
 

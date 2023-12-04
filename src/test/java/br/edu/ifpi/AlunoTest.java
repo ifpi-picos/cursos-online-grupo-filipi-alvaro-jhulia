@@ -9,11 +9,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.edu.ifpi.dao.AlunoDao;
-import br.edu.ifpi.dao.Conexao;
-import br.edu.ifpi.dao.CursoDao;
-import br.edu.ifpi.dao.MatriculaDao;
-import br.edu.ifpi.dao.NotaDao;
+import br.edu.ifpi.DAO.AlunoDAO;
+import br.edu.ifpi.DAO.Conexao;
+import br.edu.ifpi.DAO.CursoDAO;
+import br.edu.ifpi.DAO.MatriculaDAO;
+import br.edu.ifpi.DAO.NotaDAO;
 import br.edu.ifpi.entidades.Aluno;
 import br.edu.ifpi.entidades.Curso;
 import br.edu.ifpi.entidades.Matricula;
@@ -29,20 +29,20 @@ public class AlunoTest {
 
     @Test    // Teste de cadastro de aluno
     public void cadastrarAluno() {
-        AlunoDao alunoDao = new AlunoDao(conexao);
+        AlunoDAO alunoDAO = new AlunoDAO(conexao);
 
         Aluno novoAluno = new Aluno("deborah", "deborah@gmail.com", StatusAluno.ATIVO);
 
-        int retornoAluno = alunoDao.cadastrar(novoAluno);
+        int retornoAluno = alunoDAO.cadastrar(novoAluno);
         assertTrue(retornoAluno > 0);
     }
 
 
     @Test   // Teste de visualização de perfil de aluno
     public void visualizarPerfil() {
-        AlunoDao alunoDao = new AlunoDao(conexao);
+        AlunoDAO alunoDAO = new AlunoDAO(conexao);
 
-        Aluno aluno = alunoDao.consultarPorEmail("deborah@gmail.com");
+        Aluno aluno = alunoDAO.consultarPorEmail("deborah@gmail.com");
 
         System.out.println("Nome do aluno: " + aluno.getNome());
         System.out.println("E-mail: " + aluno.getEmail());
@@ -55,9 +55,9 @@ public class AlunoTest {
 
     @Test // Teste de consulta de todos os alunos
     public void consultarTodos() throws SQLException {
-        AlunoDao alunoDao = new AlunoDao(conexao);
+        AlunoDAO alunoDAO = new AlunoDAO(conexao);
 
-        List<Aluno> alunos = alunoDao.consultarTodos();
+        List<Aluno> alunos = alunoDAO.consultarTodos();
 
         for (Aluno aluno : alunos) {
             System.out.println("Nome do aluno: " + aluno.getNome());
@@ -70,16 +70,16 @@ public class AlunoTest {
 
     @Test     // Teste para realizar matrícula
     public void realizarMatricula() {
-        AlunoDao alunoDao = new AlunoDao(conexao);
-        MatriculaDao matriculaDao = new MatriculaDao(conexao);
-        CursoDao cursoDao = new CursoDao(conexao);
+        AlunoDAO alunoDAO = new AlunoDAO(conexao);
+        MatriculaDAO matriculaDAO = new MatriculaDAO(conexao);
+        CursoDAO cursoDAO = new CursoDAO(conexao);
 
-        Curso curso = cursoDao.consultarPorId(1);
+        Curso curso = cursoDAO.consultarPorId(1);
 
-        Aluno aluno = alunoDao.consultarPorId(11);
+        Aluno aluno = alunoDAO.consultarPorId(11);
         Matricula novaMatricula = new Matricula(aluno, curso, "Ativa");
 
-        int retornoMatricula = matriculaDao.cadastrar(novaMatricula);
+        int retornoMatricula = matriculaDAO.cadastrar(novaMatricula);
 
         assertTrue(retornoMatricula > 0);
     }
@@ -87,15 +87,15 @@ public class AlunoTest {
 
     @Test        // Teste para cancelar matrícula
     public void cancelarMatricula() {
-        AlunoDao alunoDao = new AlunoDao(conexao);
-        MatriculaDao matriculaDao = new MatriculaDao(conexao);
+        AlunoDAO alunoDAO = new AlunoDAO(conexao);
+        MatriculaDAO matriculaDAO = new MatriculaDAO(conexao);
 
-        Aluno aluno = alunoDao.consultarPorEmail("deborah@gmail.com");
+        Aluno aluno = alunoDAO.consultarPorEmail("deborah@gmail.com");
 
-        Matricula matricula = matriculaDao.consultarPorAluno(aluno);
+        Matricula matricula = matriculaDAO.consultarPorAluno(aluno);
         matricula.setStatus("Cancelada");
 
-        int resultado = matriculaDao.alterar(matricula);
+        int resultado = matriculaDAO.alterar(matricula);
 
         assertTrue(resultado > 0);
     }
@@ -103,22 +103,22 @@ public class AlunoTest {
 
     @Test // Teste para ver as estatisticas de desempenho
     public void estatisticaDesempenho(){
-        NotaDao notaDao = new NotaDao(conexao);
-        AlunoDao alunoDao = new AlunoDao(conexao);
-        Aluno aluno = alunoDao.consultarPorEmail("carlosHenrique@gmail.com");
+        NotaDAO notaDAO = new NotaDAO(conexao);
+        AlunoDAO alunoDAO = new AlunoDAO(conexao);
+        Aluno aluno = alunoDAO.consultarPorEmail("carlosHenrique@gmail.com");
 
-        notaDao.getEstatisticaAluno(aluno);
+        notaDAO.getEstatisticaAluno(aluno);
     }
 
 
     @Test     // Teste para atualizar dados do aluno
     public void atualizarAluno() {
-        AlunoDao alunoDao = new AlunoDao(conexao);
+        AlunoDAO alunoDAO = new AlunoDAO(conexao);
 
-        Aluno aluno = alunoDao.consultarPorEmail("luci@gmail.com");
+        Aluno aluno = alunoDAO.consultarPorEmail("luci@gmail.com");
         aluno.setNome("Maria");
 
-        int retornoAluno = alunoDao.alterar(aluno);
+        int retornoAluno = alunoDAO.alterar(aluno);
 
         assertTrue(retornoAluno > 0);
     }
@@ -126,11 +126,11 @@ public class AlunoTest {
 
     @Test      // Teste para exibir cursos matriculados
     public void exibirCursosMatriculados() {
-        AlunoDao alunoDao = new AlunoDao(conexao);
+        AlunoDAO alunoDAO = new AlunoDAO(conexao);
         
-        Aluno aluno = alunoDao.consultarPorId(10);
+        Aluno aluno = alunoDAO.consultarPorId(10);
         
-        List<String> cursosMatriculados = alunoDao.CursosMatriculados(aluno);
+        List<String> cursosMatriculados = alunoDAO.CursosMatriculados(aluno);
         
         for (String nomeCurso : cursosMatriculados) {
             System.out.println("Curso Matriculado: " + nomeCurso);
@@ -142,7 +142,7 @@ public class AlunoTest {
 
     @Test     // Teste para exibir cursos concluídos
     public void exibirCursosConcluidos() {
-        AlunoDao alunoDao = new AlunoDao(conexao);
+        AlunoDAO alunoDao = new AlunoDAO(conexao);
         Aluno aluno = alunoDao.consultarPorId(1);
     
         List<String> cursosConcluidos = alunoDao.exibirCursosConcluidos(aluno, conexao);

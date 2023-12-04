@@ -8,9 +8,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.edu.ifpi.dao.Conexao;
-import br.edu.ifpi.dao.CursoDao;
-import br.edu.ifpi.dao.ProfessorDao;
+import br.edu.ifpi.DAO.Conexao;
+import br.edu.ifpi.DAO.CursoDAO;
+import br.edu.ifpi.DAO.ProfessorDAO;
 import br.edu.ifpi.entidades.Curso;
 import br.edu.ifpi.entidades.Professor;
 import br.edu.ifpi.entidades.ProfessorCurso;
@@ -25,14 +25,14 @@ public class ProfessorTest {
 
     @Test     // Teste de cadastro de professor
     public void cadastrarProfessor() {
-        ProfessorDao professorDao = new ProfessorDao(conexao);
+        ProfessorDAO professorDAO = new ProfessorDAO(conexao);
 
         String nome = "Rafael";
         String email = "Rafael@ifpi.edu.br";
 
         Professor novoProfessor = new Professor(nome, email);
 
-        int retorno = professorDao.cadastrar(novoProfessor);
+        int retorno = professorDAO.cadastrar(novoProfessor);
 
         assertTrue(retorno > 0);
     }
@@ -40,14 +40,14 @@ public class ProfessorTest {
 
     @Test     // Teste de associação de professor a curso
     public void associarProfessoresCursos() {
-        ProfessorDao professorDao = new ProfessorDao(conexao);
-        CursoDao cursoDao = new CursoDao(conexao);
+        ProfessorDAO professorDAO = new ProfessorDAO(conexao);
+        CursoDAO cursoDAO = new CursoDAO(conexao);
 
-        Professor professor = professorDao.consultarPorId(4);
-        Curso curso = cursoDao.consultarPorId(1);
+        Professor professor = professorDAO.consultarPorId(4);
+        Curso curso = cursoDAO.consultarPorId(1);
         curso.setProfessor(professor);
 
-        int retorno = cursoDao.alterar(curso);
+        int retorno = cursoDAO.alterar(curso);
 
         assertTrue(retorno > 0);
     }
@@ -55,23 +55,23 @@ public class ProfessorTest {
 
     @Test     // Teste de alteração de informações de professor
     public void alterarInformacoesProfessor() {
-        ProfessorDao professorDao = new ProfessorDao(conexao);
+        ProfessorDAO professorDAO = new ProfessorDAO(conexao);
 
-        Professor professor = professorDao.consultarPorId(4);
+        Professor professor = professorDAO.consultarPorId(4);
 
         professor.setNome("David");
         professor.setEmail("David@ifpi.edu.br");
 
-        int result = professorDao.alterar(professor);
+        int result = professorDAO.alterar(professor);
 
         assertTrue(result > 0);
     }
 
     @Test     // Teste para visualizar cursos de um professor
     public void professoresCursos() {
-        ProfessorDao professorDao = new ProfessorDao(conexao);
+        ProfessorDAO professorDAO = new ProfessorDAO(conexao);
         
-        List<ProfessorCurso> cursos = professorDao.cursos();
+        List<ProfessorCurso> cursos = professorDAO.cursos();
 
         for(int i = 0; i < cursos.size(); i++) {
             ProfessorCurso professorCurso = cursos.get(i);
