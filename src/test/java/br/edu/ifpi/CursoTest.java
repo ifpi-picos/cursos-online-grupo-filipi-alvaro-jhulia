@@ -91,7 +91,7 @@ public class CursoTest {
     @Test     // Teste para registrar nota de um aluno no curso e já ver se o aluno foi aprovado ou não
     public void registrarNota() {
         NotaDAO notaDAO = new NotaDAO(conexao);
-        Nota nota = new Nota(8, 1, 1, StatusNota.APROVADO);
+        Nota nota = new Nota(8, 1, 2, StatusNota.APROVADO);
         
         int result = notaDAO.cadastrar(nota);
 

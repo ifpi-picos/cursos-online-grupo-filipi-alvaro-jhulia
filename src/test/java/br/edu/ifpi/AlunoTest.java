@@ -68,6 +68,7 @@ public class AlunoTest {
         assertTrue(alunos.size() > 0);
     }
 
+
     @Test     // Teste para realizar matrícula
     public void realizarMatricula() {
         AlunoDAO alunoDAO = new AlunoDAO(conexao);
@@ -76,7 +77,7 @@ public class AlunoTest {
 
         Curso curso = cursoDAO.consultarPorId(2);
 
-        Aluno aluno = alunoDAO.consultarPorId(11);
+        Aluno aluno = alunoDAO.consultarPorId(9);
         Matricula novaMatricula = new Matricula(aluno, curso, "Ativa");
 
         int retornoMatricula = matriculaDAO.cadastrar(novaMatricula);
