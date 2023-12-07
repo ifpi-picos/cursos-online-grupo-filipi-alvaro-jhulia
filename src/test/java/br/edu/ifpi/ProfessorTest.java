@@ -42,7 +42,7 @@ public class ProfessorTest {
         ProfessorDao professorDAO = new ProfessorDao(conexao);
         CursoDao cursoDAO = new CursoDao(conexao);
 
-        Professor professor = professorDAO.consultarPorId(4);
+        Professor professor = professorDAO.consultarPorId(1);
         Curso curso = cursoDAO.consultarPorId(1);
         curso.setProfessor(professor);
 
@@ -56,10 +56,10 @@ public class ProfessorTest {
     public void alterarInformacoesProfessor() {
         ProfessorDao professorDAO = new ProfessorDao(conexao);
 
-        Professor professor = professorDAO.consultarPorId(4);
+        Professor professor = professorDAO.consultarPorId(1);
 
-        professor.setNome("David");
-        professor.setEmail("David@ifpi.edu.br");
+        professor.setNome("Jesiel");
+        professor.setEmail("Jesiel@ifpi.edu.br");
 
         int result = professorDAO.alterar(professor);
 

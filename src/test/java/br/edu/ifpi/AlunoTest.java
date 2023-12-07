@@ -30,7 +30,7 @@ public class AlunoTest {
     public void cadastrarAluno() {
         AlunoDao alunoDao = new AlunoDao(conexao);
 
-        Aluno novoAluno = new Aluno("deborah", "deborah@gmail.com", StatusAluno.ATIVO);
+        Aluno novoAluno = new Aluno("Déborah", "deborah@gmail.com", StatusAluno.ATIVO);
 
         int retornoAluno = alunoDao.cadastrar(novoAluno);
         assertTrue(retornoAluno > 0);
@@ -41,7 +41,7 @@ public class AlunoTest {
     public void visualizarPerfil() {
         AlunoDao alunoDao = new AlunoDao(conexao);
 
-        Aluno aluno = alunoDao.consultarPorEmail("deborah@gmail.com");
+        Aluno aluno = alunoDao.consultarPorEmail("jhulia@gmail.com");
 
         System.out.println("Nome do aluno: " + aluno.getNome());
         System.out.println("E-mail: " + aluno.getEmail());
@@ -74,9 +74,9 @@ public class AlunoTest {
         MatriculaDao matriculaDao = new MatriculaDao(conexao);
         CursoDao cursoDao = new CursoDao(conexao);
 
-        Curso curso = cursoDao.consultarPorId(2);
+        Curso curso = cursoDao.consultarPorId(1);
 
-        Aluno aluno = alunoDao.consultarPorId(9);
+        Aluno aluno = alunoDao.consultarPorId(1);
         Matricula novaMatricula = new Matricula(aluno, curso, "Ativa");
 
         int retornoMatricula = matriculaDao.cadastrar(novaMatricula);
@@ -105,7 +105,7 @@ public class AlunoTest {
     public void estatisticaDesempenho(){
         NotaDao notaDao = new NotaDao(conexao);
         AlunoDao alunoDao = new AlunoDao(conexao);
-        Aluno aluno = alunoDao.consultarPorEmail("carlosHenrique@gmail.com");
+        Aluno aluno = alunoDao.consultarPorEmail("jhulia@gmail.com");
 
         notaDao.getEstatisticaAluno(aluno);
     }
@@ -115,7 +115,7 @@ public class AlunoTest {
     public void atualizarAluno() {
         AlunoDao alunoDao = new AlunoDao(conexao);
 
-        Aluno aluno = alunoDao.consultarPorEmail("luci@gmail.com");
+        Aluno aluno = alunoDao.consultarPorEmail("jhulia@gmail.com");
         aluno.setNome("Maria");
 
         int retornoAluno = alunoDao.alterar(aluno);
@@ -128,7 +128,7 @@ public class AlunoTest {
     public void exibirCursosMatriculados() {
         AlunoDao alunoDao = new AlunoDao(conexao);
         
-        Aluno aluno = alunoDao.consultarPorId(10);
+        Aluno aluno = alunoDao.consultarPorId(2);
         
         List<String> cursosMatriculados = alunoDao.CursosMatriculados(aluno);
         

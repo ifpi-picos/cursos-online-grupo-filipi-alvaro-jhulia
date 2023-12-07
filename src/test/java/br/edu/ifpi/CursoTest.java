@@ -31,9 +31,9 @@ public class CursoTest {
         CursoDao cursoDao = new CursoDao(conexao);
         ProfessorDao professorDao = new ProfessorDao(conexao);
 
-        Professor professor = professorDao.consultarPorId(2);
+        Professor professor = professorDao.consultarPorId(1);
 
-        String nome = "Matemática";
+        String nome = "ADS";
         int cargaHoraria = 100;
         StatusCurso status = StatusCurso.ABERTO;
 
@@ -89,7 +89,7 @@ public class CursoTest {
     @Test     // Teste para registrar nota de um aluno no curso e já ver se o aluno foi aprovado ou não
     public void registrarNota() {
         NotaDao notaDao = new NotaDao(conexao);
-        Nota nota = new Nota(8, 1, 2, StatusNota.APROVADO);
+        Nota nota = new Nota(8, 1, 1, StatusNota.APROVADO);
         
         int result = notaDao.cadastrar(nota);
 

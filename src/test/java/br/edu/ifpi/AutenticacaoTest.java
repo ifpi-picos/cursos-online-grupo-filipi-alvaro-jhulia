@@ -49,7 +49,7 @@ public class AutenticacaoTest {
     public void autenticarProfessor() {
         ProfessorDao professorDAO = new ProfessorDao(conexao);
 
-        String emailTentativa = "Rafael@ifpi.edu.br";
+        String emailTentativa = "Jesiel@ifpi.edu.br";
 
         Professor professor = professorDAO.consultarPorEmail(emailTentativa);
 
